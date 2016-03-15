@@ -68,5 +68,7 @@ public class Address implements Serializable {
     public void setEntities(List<InfoEntity> entities) {
         this.entities = entities;
     }
+    
+    
 
 }

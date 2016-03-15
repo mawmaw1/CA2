@@ -5,10 +5,12 @@
  */
 package facade;
 
+import entity.Address;
 import entity.Company;
 import entity.Hobby;
 import entity.InfoEntity;
 import entity.Person;
+import entity.Phone;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -36,7 +38,7 @@ public class Facade implements iFacade {
         try {
             TypedQuery tq = em.createQuery("select p.id from InfoEntity p join p.phones ph where ph.phoneNumber = :phoneNumber", InfoEntity.class);
             tq.setParameter("phoneNumber", phoneNumber);
-            
+
             Person p = em.find(Person.class, tq.getSingleResult());
             return p;
         } finally {
@@ -49,7 +51,7 @@ public class Facade implements iFacade {
     public Company getCompany(String phoneNumber) {
         EntityManager em = getEntityManager();
         try {
-            TypedQuery tq = em.createQuery("select p.id from InfoEntity p join p.phones ph where ph.phoneNumber = :phoneNumber", InfoEntity.class);
+            TypedQuery tq = em.createQuery("select p.infoEntity from Phone p where p.phoneNumber = :phoneNumber", InfoEntity.class);
             tq.setParameter("phoneNumber", phoneNumber);
 
             Company c = em.find(Company.class, tq.getSingleResult());
@@ -81,12 +83,40 @@ public class Facade implements iFacade {
             tq.setParameter("zip", zip);
 
             List<Person> out = tq.getResultList();
-            
+
             return out;
 
         } finally {
             em.close();
         }
+    }
+
+    public Person createPerson(Person person) {
+        EntityManager em = getEntityManager();
+
+        try {
+            em.getTransaction().begin();
+            em.persist(person);
+            em.getTransaction().commit();
+
+            InfoEntity ie = em.find(InfoEntity.class, person.getId());
+            Phone ph1 = new Phone();
+            ph1.setPhoneNumber("22334455");
+            ph1.setInfoEntity(ie);
+            ph1.getInfoEntity().setId(ie.getId());
+            ie.addPhoneNumber(ph1);
+            
+            Address a1 = new Address();
+            a1.setStreet("RandomStreet");
+
+            em.getTransaction().begin();
+            em.persist(ie);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+
+        return person;
     }
 
     @Override
