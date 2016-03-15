@@ -34,11 +34,12 @@ public class Facade implements iFacade {
     public Person getPerson(String phoneNumber) {
         EntityManager em = getEntityManager();
         try {
-            TypedQuery tq = em.createQuery("select p.id from InfoEntity p join p.phones ph where ph.phoneNumber = :phoneNumber", InfoEntity.class);
+            TypedQuery<Person> tq = em.createQuery("select p from Person p join p.phones ph where ph.phoneNumber = :phoneNumber", Person.class);
             tq.setParameter("phoneNumber", phoneNumber);
             
-            Person p = em.find(Person.class, tq.getSingleResult());
+            Person p = em.find(Person.class, tq.getSingleResult().getId());
             return p;
+            
         } finally {
             em.close();
         }
@@ -81,7 +82,7 @@ public class Facade implements iFacade {
             tq.setParameter("zip", zip);
 
             List<Person> out = tq.getResultList();
-            
+
             return out;
 
         } finally {

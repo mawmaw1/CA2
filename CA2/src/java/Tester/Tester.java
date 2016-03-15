@@ -5,7 +5,11 @@
  */
 package Tester;
 
+import entity.InfoEntity;
+import entity.Person;
+import entity.Phone;
 import facade.Facade;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -15,10 +19,30 @@ import javax.persistence.Persistence;
  */
 public class Tester {
     public static void main(String[] args) {
-        Persistence.generateSchema("PU", null);
-//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
-//        Facade cf = new Facade(emf);
+//        Persistence.generateSchema("PU", null);
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
+        Facade cf = new Facade(emf);
+//        EntityManager em = emf.createEntityManager();
+//        Person p = new Person();
+//        p.setFirstName("Pter");
+//        p.setEmail("somemail");
+//        p.setLastName("Hansen");
+//        Phone ph = new Phone();
+//        ph.setPhoneNumber("1234");
+//        InfoEntity ie = em.find(InfoEntity.class, 1);
+//        ph.setInfoEntity(ie);
 //        
-//        System.out.println(cf.getCompany("1231"));
+//        ph.setInfoEntity(ph.getInfoEntity());
+//        
+//        try {
+//            em.getTransaction().begin();
+//            em.persist(ph);
+//            
+//            em.getTransaction().commit();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        Person p = cf.getPerson("1234");
+        System.out.println(p.getFirstName() + " " + p.getLastName());
     }
 }

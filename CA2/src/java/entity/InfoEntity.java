@@ -34,7 +34,7 @@ public abstract class InfoEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
- 
+    
     @OneToMany(mappedBy = "infoEntity")
     List<Phone> phones = new ArrayList();
 

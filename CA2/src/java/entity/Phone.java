@@ -22,8 +22,11 @@ public class Phone implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     @ManyToOne
     private InfoEntity infoEntity;
+
     private String phoneNumber;
     private String description;
 
@@ -43,14 +46,20 @@ public class Phone implements Serializable {
         this.description = description;
     }
 
-    private Integer id;
-
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public InfoEntity getInfoEntity() {
+        return infoEntity;
+    }
+
+    public void setInfoEntity(InfoEntity infoEntity) {
+        this.infoEntity = infoEntity;
     }
 
 }
