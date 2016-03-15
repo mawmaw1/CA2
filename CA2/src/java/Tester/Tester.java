@@ -5,10 +5,14 @@
  */
 package Tester;
 
+import javax.persistence.Persistence;
+
 /**
  *
  * @author Magnus
  */
 public class Tester {
-    
+    public static void main(String[] args) {
+        Persistence.generateSchema("PU", null);
+    }
 }
