@@ -5,6 +5,7 @@
  */
 package Tester;
 
+import data.DataGen;
 import entity.Person;
 import facade.Facade;
 import javax.persistence.EntityManagerFactory;
@@ -16,17 +17,19 @@ import javax.persistence.Persistence;
  */
 public class Tester {
     public static void main(String[] args) {
-        Persistence.generateSchema("PU", null);
+        //Persistence.generateSchema("PU", null);
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
         Facade cf = new Facade(emf);
+        DataGen df = new DataGen(emf);
         
-        Person p1 = new Person();
-        System.out.println(p1.getId());
-        p1.setFirstName("Test");
-        p1.setLastName("Test igen");
-        cf.createPerson(p1);
-        
-//        
-//        System.out.println(cf.getCompany("1231"));
+        //df.createPerson();
+        df.createCompany();
+       
+        System.out.println(DataGen.firstnames.length);
+        System.out.println(DataGen.lastnames.length);
+        System.out.println(DataGen.emails.length);
+        System.out.println(DataGen.phonenumbers.length);
+        System.out.println(DataGen.addresses.length);
+        System.out.println(DataGen.numbers.length);
     }
 }

@@ -5,7 +5,9 @@
  */
 package facade;
 
+import data.DataGen;
 import entity.Address;
+import entity.CityInfo;
 import entity.Company;
 import entity.Hobby;
 import entity.InfoEntity;
@@ -23,6 +25,7 @@ import javax.persistence.TypedQuery;
 public class Facade implements iFacade {
 
     private EntityManagerFactory emf;
+    
 
     public Facade(EntityManagerFactory e) {
         emf = e;
@@ -91,33 +94,7 @@ public class Facade implements iFacade {
         }
     }
 
-    public Person createPerson(Person person) {
-        EntityManager em = getEntityManager();
-
-        try {
-            em.getTransaction().begin();
-            em.persist(person);
-            em.getTransaction().commit();
-
-            InfoEntity ie = em.find(InfoEntity.class, person.getId());
-            Phone ph1 = new Phone();
-            ph1.setPhoneNumber("22334455");
-            ph1.setInfoEntity(ie);
-            ph1.getInfoEntity().setId(ie.getId());
-            ie.addPhoneNumber(ph1);
-            
-            Address a1 = new Address();
-            a1.setStreet("RandomStreet");
-
-            em.getTransaction().begin();
-            em.persist(ie);
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
-
-        return person;
-    }
+ 
 
     @Override
     public int getHobbiesCount(Hobby hobby) {

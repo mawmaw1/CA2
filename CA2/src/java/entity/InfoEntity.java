@@ -27,7 +27,7 @@ import javax.persistence.OneToMany;
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class InfoEntity implements Serializable {
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Address address;
 
     private static final long serialVersionUID = 1L;
