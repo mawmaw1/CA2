@@ -26,7 +26,7 @@ public class CityInfo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @ElementCollection
+
     @OneToMany(mappedBy = "cityInfo")
     private List<Address> addresses = new ArrayList();
     

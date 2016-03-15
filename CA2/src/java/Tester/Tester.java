@@ -15,10 +15,10 @@ import javax.persistence.Persistence;
  */
 public class Tester {
     public static void main(String[] args) {
-    //    Persistence.generateSchema("PU", null);
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
-        Facade cf = new Facade(emf);
-        
-        System.out.println(cf.getCompany("1231"));
+        Persistence.generateSchema("PU", null);
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
+//        Facade cf = new Facade(emf);
+//        
+//        System.out.println(cf.getCompany("1231"));
     }
 }
