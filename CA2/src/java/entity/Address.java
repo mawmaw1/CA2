@@ -33,7 +33,7 @@ public class Address implements Serializable {
     private String street;
     private String additionalInfo;
 
-    @ElementCollection
+
     @OneToMany(mappedBy = "address")
     private List<InfoEntity> entities = new ArrayList();
 

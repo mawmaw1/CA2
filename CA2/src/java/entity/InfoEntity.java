@@ -23,8 +23,8 @@ import javax.persistence.OneToMany;
  * @author Magnus
  */
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class InfoEntity implements Serializable {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class InfoEntity implements Serializable {
 
     @ManyToOne
     private Address address;
@@ -34,7 +34,7 @@ public class InfoEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
-    @ElementCollection
+ 
     @OneToMany(mappedBy = "infoEntity")
     List<Phone> phones = new ArrayList();
 

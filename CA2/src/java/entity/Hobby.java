@@ -21,7 +21,6 @@ import javax.persistence.ManyToMany;
 @Entity
 public class Hobby implements Serializable {
     
-    @ElementCollection
     @ManyToMany(mappedBy = "hobbies")
     private List<Person> persons;
 
