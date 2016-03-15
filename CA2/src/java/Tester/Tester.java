@@ -5,6 +5,8 @@
  */
 package Tester;
 
+import facade.Facade;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 /**
@@ -13,6 +15,10 @@ import javax.persistence.Persistence;
  */
 public class Tester {
     public static void main(String[] args) {
-        Persistence.generateSchema("PU", null);
+    //    Persistence.generateSchema("PU", null);
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
+        Facade cf = new Facade(emf);
+        
+        System.out.println(cf.getCompany("1231"));
     }
 }
