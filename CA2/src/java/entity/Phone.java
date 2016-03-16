@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,9 +24,10 @@ public class Phone implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
+
     @ManyToOne
     private InfoEntity infoEntity;
+   
     private String phoneNumber;
     private String description;
 
@@ -45,8 +47,6 @@ public class Phone implements Serializable {
         this.description = description;
     }
 
-    
-
     public Integer getId() {
         return id;
     }
@@ -62,7 +62,5 @@ public class Phone implements Serializable {
     public void setInfoEntity(InfoEntity infoEntity) {
         this.infoEntity = infoEntity;
     }
-    
-    
 
 }
