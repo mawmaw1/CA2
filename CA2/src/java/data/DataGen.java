@@ -55,7 +55,7 @@ public class DataGen {
     public Person createPerson() {
         Person person = null;
         for (int i = 0; i < 30; i++) {
-
+            
             EntityManager em = getEntityManager();
             person = new Person();
             person.setFirstName(firstnames[randInt(0, 35)]);

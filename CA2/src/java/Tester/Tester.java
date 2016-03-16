@@ -6,8 +6,14 @@
 package Tester;
 
 import data.DataGen;
+import entity.Company;
+import entity.Hobby;
+import entity.InfoEntity;
 import entity.Person;
+import entity.Phone;
 import facade.Facade;
+import java.util.List;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -16,20 +22,29 @@ import javax.persistence.Persistence;
  * @author Magnus
  */
 public class Tester {
+
     public static void main(String[] args) {
-        //Persistence.generateSchema("PU", null);
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
-        Facade cf = new Facade(emf);
-        DataGen df = new DataGen(emf);
+            Persistence.generateSchema("PU", null);
+       // EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
+//        Facade cf = new Facade(emf);
+//        DataGen df = new DataGen(emf);
+//
+////        df.createPerson();
+//        //     df.createCompany();
+//     //   Company c = cf.getCompany("99847752");
+//
+//        //Person p = cf.getPerson("00991133");
+//        //    System.out.println(p.getFirstName() + " " + p.getLastName());
+//       // System.out.println(c.getName());
+//        Hobby hobby = new Hobby();
+//        hobby.setId(1);
         
-        //df.createPerson();
-        df.createCompany();
-       
-        System.out.println(DataGen.firstnames.length);
-        System.out.println(DataGen.lastnames.length);
-        System.out.println(DataGen.emails.length);
-        System.out.println(DataGen.phonenumbers.length);
-        System.out.println(DataGen.addresses.length);
-        System.out.println(DataGen.numbers.length);
+       // List<Person> out = cf.getPersonsFromHobby(hobby);
+//            List<Company> out = cf.getCompanyListWithMoreEmployees(20000);
+//        for(int i=0;i<out.size();i++){
+//            System.out.println(out.get(i).getName() + " Id: " + out.get(i).getId());
+//        }
+        
+        
     }
 }

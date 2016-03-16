@@ -54,4 +54,5 @@ public class Person extends InfoEntity implements Serializable {
         hobbies.add(hobby);
     }
 
+   
 }
