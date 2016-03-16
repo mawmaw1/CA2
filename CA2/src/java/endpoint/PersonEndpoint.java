@@ -66,16 +66,15 @@ public class PersonEndpoint {
             p1.addProperty("zip", person.getAddress().getCityInfo().getZip());
             p1.addProperty("city", person.getAddress().getCityInfo().getCity());
 
-            String phone = "";
+            JsonArray phone = new JsonArray();
             List<Phone> phones = person.getPhones();
             for (Phone p : phones) {
-                if (phones.size() == 1) {
-                    phone += p.getPhoneNumber();
-                } else {
-                    phone += p.getPhoneNumber() + ",";
-                }
+                JsonObject p2 = new JsonObject();
+                p2.addProperty("number", p.getPhoneNumber());
+                p2.addProperty("description", p.getDescription());
+                phone.add(p2);
             }
-            p1.addProperty("phonenumbers", phone);
+            p1.add("phonenumbers", phone);
 
             String hobby = "";
             List<Hobby> hobbies = person.getHobbies();
