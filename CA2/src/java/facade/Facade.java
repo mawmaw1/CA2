@@ -51,6 +51,22 @@ public class Facade implements iFacade {
         }
 
     }
+    
+    @Override
+    public Person getPerson(int id) {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Person> tq = em.createQuery("select p from Person p  where p.id = :id", Person.class);
+            tq.setParameter("id", id);
+
+            Person p = tq.getSingleResult();
+            return p;
+
+        } finally {
+            em.close();
+        }
+
+    }
 
     @Override
     public Company getCompany(String phoneNumber) {

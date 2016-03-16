@@ -5,6 +5,8 @@
  */
 package servlet;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
@@ -23,6 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "DataServlet", urlPatterns = {"/DataServlet"})
 public class DataServlet extends HttpServlet {
 
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,9 +41,8 @@ public class DataServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
+            URL url = new URL("http://localhost:8080/CA2/api/person/complete");
 
-            URL url = new URL("http://localhost:8080/ca2/api/person/");
-            
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("Accept", "application/json;charset=UTF-8");
@@ -49,8 +52,9 @@ public class DataServlet extends HttpServlet {
                 jsonStr = scan.nextLine();
             }
             scan.close();
-            System.out.print(jsonStr);
-            out.print(jsonStr);
+            System.out.println(jsonStr);
+//            out.println(jsonStr);
+            out.println(gson.toJson(jsonStr));
         }
     }
 
