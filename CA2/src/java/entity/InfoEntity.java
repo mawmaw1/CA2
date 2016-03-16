@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,7 +27,7 @@ import javax.persistence.OneToMany;
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class InfoEntity implements Serializable {
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Address address;
 
     private static final long serialVersionUID = 1L;
@@ -34,8 +35,8 @@ public abstract class InfoEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
- 
-    @OneToMany(mappedBy = "infoEntity")
+    
+    @OneToMany(cascade = CascadeType.PERSIST , mappedBy = "infoEntity")
     List<Phone> phones = new ArrayList();
 
     private String email;
@@ -55,5 +56,19 @@ public abstract class InfoEntity implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+    
+    public void addPhoneNumber(Phone phone){
+        phones.add(phone);
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+    
+    
 
 }

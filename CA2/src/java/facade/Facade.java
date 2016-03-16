@@ -5,10 +5,14 @@
  */
 package facade;
 
+import data.DataGen;
+import entity.Address;
+import entity.CityInfo;
 import entity.Company;
 import entity.Hobby;
 import entity.InfoEntity;
 import entity.Person;
+import entity.Phone;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -21,6 +25,7 @@ import javax.persistence.TypedQuery;
 public class Facade implements iFacade {
 
     private EntityManagerFactory emf;
+    
 
     public Facade(EntityManagerFactory e) {
         emf = e;
@@ -36,7 +41,7 @@ public class Facade implements iFacade {
         try {
             TypedQuery tq = em.createQuery("select p.id from InfoEntity p join p.phones ph where ph.phoneNumber = :phoneNumber", InfoEntity.class);
             tq.setParameter("phoneNumber", phoneNumber);
-            
+
             Person p = em.find(Person.class, tq.getSingleResult());
             return p;
         } finally {
@@ -49,7 +54,7 @@ public class Facade implements iFacade {
     public Company getCompany(String phoneNumber) {
         EntityManager em = getEntityManager();
         try {
-            TypedQuery tq = em.createQuery("select p.id from InfoEntity p join p.phones ph where ph.phoneNumber = :phoneNumber", InfoEntity.class);
+            TypedQuery tq = em.createQuery("select p.infoEntity from Phone p where p.phoneNumber = :phoneNumber", InfoEntity.class);
             tq.setParameter("phoneNumber", phoneNumber);
 
             Company c = em.find(Company.class, tq.getSingleResult());
@@ -81,13 +86,15 @@ public class Facade implements iFacade {
             tq.setParameter("zip", zip);
 
             List<Person> out = tq.getResultList();
-            
+
             return out;
 
         } finally {
             em.close();
         }
     }
+
+ 
 
     @Override
     public int getHobbiesCount(Hobby hobby) {
