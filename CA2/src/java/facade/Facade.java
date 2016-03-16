@@ -131,4 +131,17 @@ public class Facade implements iFacade {
         }
     }
 
+    @Override
+    public List<Person> getPersons() {
+         EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Person> tq = em.createQuery("select p from Person p", Person.class);
+            List<Person> out = tq.getResultList();
+            return out;
+
+        } finally {
+            em.close();
+        }
+    }
+
 }
