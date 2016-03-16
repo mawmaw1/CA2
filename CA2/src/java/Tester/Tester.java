@@ -11,6 +11,7 @@ import entity.Hobby;
 import entity.InfoEntity;
 import entity.Person;
 import entity.Phone;
+import exception.PersonNotFoundException;
 import facade.Facade;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -23,16 +24,25 @@ import javax.persistence.Persistence;
  */
 public class Tester {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws PersonNotFoundException {
 //            Persistence.generateSchema("PU", null);
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
         Facade cf = new Facade(emf);
         DataGen df = new DataGen(emf);
         
-//
+
         df.createPerson();
-             df.createCompany();
-//             cf.deletePerson(4);
+        df.createCompany();
+        
+        
+        
+        Person p1 = new Person();
+        
+        p1.setFirstName("Karlot");
+        p1.setLastName("Güggenheim");
+        cf.addPerson(p1);
+        
+        
 //        Company c = cf.getCompany("99847752");
 //
 //        Person p = cf.getPerson("00991133");

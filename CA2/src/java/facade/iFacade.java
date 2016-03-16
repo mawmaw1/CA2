@@ -8,6 +8,7 @@ package facade;
 import entity.Company;
 import entity.Hobby;
 import entity.Person;
+import exception.PersonNotFoundException;
 import java.util.List;
 
 /**
@@ -15,6 +16,7 @@ import java.util.List;
  * @author Magnus
  */
 public interface iFacade {
+    public List<Person> getPersons();
     public Person getPerson(String phoneNumber);
     public Company getCompany(String phoneNumber);
     public List<Person> getPersonsFromHobby(Hobby hobby);
@@ -22,6 +24,8 @@ public interface iFacade {
     public int getHobbiesCount(Hobby hobby);
     public List<String> getAllZip();
     public List<Company> getCompanyListWithMoreEmployees(int number);
-    public Person deletePerson(int id);
+    public Person deletePerson(int id) throws PersonNotFoundException;
+    public Person editPerson(int id) throws PersonNotFoundException;
+    public Person addPerson(Person p);
     
 }

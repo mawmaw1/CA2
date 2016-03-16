@@ -13,6 +13,7 @@ import entity.Hobby;
 import entity.InfoEntity;
 import entity.Person;
 import entity.Phone;
+import exception.PersonNotFoundException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -132,19 +133,64 @@ public class Facade implements iFacade {
     }
 
     @Override
-    public Person deletePerson(int id) {
+    public List<Person> getPersons() {
         EntityManager em = getEntityManager();
         try {
-            Query query = em.createNativeQuery("DELETE FROM Person WHERE id = " + id);
-            query.executeUpdate();
+            TypedQuery<Person> tq = em.createQuery("select p from Person p", Person.class);
+            List<Person> out = tq.getResultList();
+            return out;
 
-            List<Person> mothersToRemove = em.createQuery("DELETE FROM Person WHERE id = " + id).getResultList();
-            for (Person p : mothersToRemove) {
-                em.remove(p);
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public Person deletePerson(int id) throws PersonNotFoundException {
+        EntityManager em = getEntityManager();
+        try {
+            Person p = em.find(Person.class, id);
+            if (p == null) {
+                throw new PersonNotFoundException("No Person found with provided id");
             }
-            Person p = em.find(Person.class, query.getSingleResult());
-            return p;
 
+            em.getTransaction().begin();
+            em.remove(p);
+            em.getTransaction().commit();
+            return p;
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public Person editPerson(int id) throws PersonNotFoundException {
+        EntityManager em = getEntityManager();
+        try {
+            Person p = em.find(Person.class, id);
+            if (p == null) {
+                throw new PersonNotFoundException("No Person found with provided id");
+            }
+            p.setFirstName(p.getFirstName());
+            p.setLastName(p.getLastName());
+
+            em.getTransaction().begin();
+            em.merge(p);
+            em.getTransaction().commit();
+            return p;
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public Person addPerson(Person p) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(p);
+            em.getTransaction().commit();
+            return p;
         } finally {
             em.close();
         }
