@@ -15,13 +15,21 @@ import java.util.List;
  * @author Magnus
  */
 public interface iFacade {
+
     public List<Person> getPersons();
+
     public Person getPerson(String phoneNumber);
+
     public Company getCompany(String phoneNumber);
+
     public List<Person> getPersonsFromHobby(Hobby hobby);
+
     public List<Person> getPersons(String zip);
+
     public int getHobbiesCount(Hobby hobby);
+
     public List<String> getAllZip();
+
     public List<Company> getCompanyListWithMoreEmployees(int number);
-    
+
 }
