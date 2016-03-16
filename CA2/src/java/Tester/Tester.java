@@ -5,10 +5,14 @@
  */
 package Tester;
 
+import data.DataGen;
+import entity.Company;
+import entity.Hobby;
 import entity.InfoEntity;
 import entity.Person;
 import entity.Phone;
 import facade.Facade;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -18,31 +22,29 @@ import javax.persistence.Persistence;
  * @author Magnus
  */
 public class Tester {
+
     public static void main(String[] args) {
-//        Persistence.generateSchema("PU", null);
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
-        Facade cf = new Facade(emf);
-//        EntityManager em = emf.createEntityManager();
-//        Person p = new Person();
-//        p.setFirstName("Pter");
-//        p.setEmail("somemail");
-//        p.setLastName("Hansen");
-//        Phone ph = new Phone();
-//        ph.setPhoneNumber("1234");
-//        InfoEntity ie = em.find(InfoEntity.class, 1);
-//        ph.setInfoEntity(ie);
-//        
-//        ph.setInfoEntity(ph.getInfoEntity());
-//        
-//        try {
-//            em.getTransaction().begin();
-//            em.persist(ph);
-//            
-//            em.getTransaction().commit();
-//        } catch (Exception e) {
-//            e.printStackTrace();
+            Persistence.generateSchema("PU", null);
+       // EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
+//        Facade cf = new Facade(emf);
+//        DataGen df = new DataGen(emf);
+//
+////        df.createPerson();
+//        //     df.createCompany();
+//     //   Company c = cf.getCompany("99847752");
+//
+//        //Person p = cf.getPerson("00991133");
+//        //    System.out.println(p.getFirstName() + " " + p.getLastName());
+//       // System.out.println(c.getName());
+//        Hobby hobby = new Hobby();
+//        hobby.setId(1);
+        
+       // List<Person> out = cf.getPersonsFromHobby(hobby);
+//            List<Company> out = cf.getCompanyListWithMoreEmployees(20000);
+//        for(int i=0;i<out.size();i++){
+//            System.out.println(out.get(i).getName() + " Id: " + out.get(i).getId());
 //        }
-        Person p = cf.getPerson("1234");
-        System.out.println(p.getFirstName() + " " + p.getLastName());
+        
+        
     }
 }

@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,7 +27,7 @@ public class Phone implements Serializable {
 
     @ManyToOne
     private InfoEntity infoEntity;
-
+    @Column(unique = true)
     private String phoneNumber;
     private String description;
 

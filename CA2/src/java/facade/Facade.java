@@ -5,10 +5,12 @@
  */
 package facade;
 
+import entity.Address;
 import entity.Company;
 import entity.Hobby;
 import entity.InfoEntity;
 import entity.Person;
+import entity.Phone;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -36,10 +38,10 @@ public class Facade implements iFacade {
         try {
             TypedQuery<Person> tq = em.createQuery("select p from Person p join p.phones ph where ph.phoneNumber = :phoneNumber", Person.class);
             tq.setParameter("phoneNumber", phoneNumber);
-            
+
             Person p = em.find(Person.class, tq.getSingleResult().getId());
             return p;
-            
+
         } finally {
             em.close();
         }
@@ -50,10 +52,10 @@ public class Facade implements iFacade {
     public Company getCompany(String phoneNumber) {
         EntityManager em = getEntityManager();
         try {
-            TypedQuery tq = em.createQuery("select p.id from InfoEntity p join p.phones ph where ph.phoneNumber = :phoneNumber", InfoEntity.class);
+            TypedQuery<Company> tq = em.createQuery("select c from Company c join c.phones ph where ph.phoneNumber = :phoneNumber", Company.class);
             tq.setParameter("phoneNumber", phoneNumber);
 
-            Company c = em.find(Company.class, tq.getSingleResult());
+            Company c = em.find(Company.class, tq.getSingleResult().getId());
             return c;
         } finally {
             em.close();
@@ -64,7 +66,7 @@ public class Facade implements iFacade {
     public List<Person> getPersonsFromHobby(Hobby hobby) {
         EntityManager em = getEntityManager();
         try {
-            TypedQuery tq = em.createQuery("select p from Person p join p.hobbies h where h.id = :hobbyId", InfoEntity.class);
+            TypedQuery<Person> tq = em.createQuery("select p from Person p join p.hobbies h where h.id = :hobbyId", Person.class);
             tq.setParameter("hobbyId", hobby.getId());
 
             return tq.getResultList();
@@ -78,7 +80,7 @@ public class Facade implements iFacade {
     public List<Person> getPersons(String zip) {
         EntityManager em = getEntityManager();
         try {
-            TypedQuery tq = em.createQuery("select p from InfoEntity p join p.address a where a.cityInfo.zip = :zip", InfoEntity.class);
+            TypedQuery<Person> tq = em.createQuery("select p from InfoEntity p join p.address a where a.cityInfo.zip = :zip", Person.class);
             tq.setParameter("zip", zip);
 
             List<Person> out = tq.getResultList();
@@ -97,12 +99,33 @@ public class Facade implements iFacade {
 
     @Override
     public List<String> getAllZip() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<String> tq = em.createQuery("select c.zip from CityInfo c", String.class);
+
+            List<String> out = tq.getResultList();
+
+            return out;
+
+        } finally {
+            em.close();
+        }
     }
 
     @Override
     public List<Company> getCompanyListWithMoreEmployees(int number) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Company> tq = em.createQuery("select c from Company c where c.numEmployees >= :number", Company.class);
+            tq.setParameter("number", number);
+
+            List<Company> out = tq.getResultList();
+
+            return out;
+
+        } finally {
+            em.close();
+        }
     }
 
 }
