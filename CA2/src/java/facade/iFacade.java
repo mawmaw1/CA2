@@ -22,5 +22,6 @@ public interface iFacade {
     public int getHobbiesCount(Hobby hobby);
     public List<String> getAllZip();
     public List<Company> getCompanyListWithMoreEmployees(int number);
+    public Person deletePerson(int id);
     
 }

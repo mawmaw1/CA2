@@ -24,22 +24,24 @@ import javax.persistence.Persistence;
 public class Tester {
 
     public static void main(String[] args) {
-            Persistence.generateSchema("PU", null);
-       // EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
-//        Facade cf = new Facade(emf);
-//        DataGen df = new DataGen(emf);
+//            Persistence.generateSchema("PU", null);
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
+        Facade cf = new Facade(emf);
+        DataGen df = new DataGen(emf);
+        
 //
-////        df.createPerson();
-//        //     df.createCompany();
-//     //   Company c = cf.getCompany("99847752");
+        df.createPerson();
+             df.createCompany();
+//             cf.deletePerson(4);
+//        Company c = cf.getCompany("99847752");
 //
-//        //Person p = cf.getPerson("00991133");
-//        //    System.out.println(p.getFirstName() + " " + p.getLastName());
-//       // System.out.println(c.getName());
+//        Person p = cf.getPerson("00991133");
+//            System.out.println(p.getFirstName() + " " + p.getLastName());
+//        System.out.println(c.getName());
 //        Hobby hobby = new Hobby();
 //        hobby.setId(1);
-        
-       // List<Person> out = cf.getPersonsFromHobby(hobby);
+//        
+//        List<Person> out = cf.getPersonsFromHobby(hobby);
 //            List<Company> out = cf.getCompanyListWithMoreEmployees(20000);
 //        for(int i=0;i<out.size();i++){
 //            System.out.println(out.get(i).getName() + " Id: " + out.get(i).getId());

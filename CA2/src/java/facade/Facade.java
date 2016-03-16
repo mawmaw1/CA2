@@ -16,6 +16,7 @@ import entity.Phone;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -25,7 +26,6 @@ import javax.persistence.TypedQuery;
 public class Facade implements iFacade {
 
     private EntityManagerFactory emf;
-    
 
     public Facade(EntityManagerFactory e) {
         emf = e;
@@ -125,6 +125,25 @@ public class Facade implements iFacade {
             List<Company> out = tq.getResultList();
 
             return out;
+
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public Person deletePerson(int id) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("DELETE FROM Person WHERE id = " + id);
+            query.executeUpdate();
+
+            List<Person> mothersToRemove = em.createQuery("DELETE FROM Person WHERE id = " + id).getResultList();
+            for (Person p : mothersToRemove) {
+                em.remove(p);
+            }
+            Person p = em.find(Person.class, query.getSingleResult());
+            return p;
 
         } finally {
             em.close();
