@@ -11,6 +11,7 @@ import entity.Hobby;
 import entity.InfoEntity;
 import entity.Person;
 import entity.Phone;
+import exception.PersonNotFoundException;
 import facade.Facade;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -40,15 +41,19 @@ public class Tester {
 //        Person p = cf.getPerson("00991133");
 //            System.out.println(p.getFirstName() + " " + p.getLastName());
 //       // System.out.println(c.getName());
-//        Hobby hobby = new Hobby();
-//        hobby.setId(1);
+
+        List<Person> out = cf.getPersons();
+//        List<Company> outs = cf.getCompanyListWithMoreEmployees(20000);
+//
         
-       // List<Person> out = cf.getPersonsFromHobby(hobby);
-//            List<Company> out = cf.getCompanyListWithMoreEmployees(20000);
-//        for(int i=0;i<out.size();i++){
-//            System.out.println(out.get(i).getName() + " Id: " + out.get(i).getId());
+//        for (int i = 0; i < outs.size(); i++) {
+//            System.out.println(outs.get(i).getName());
+
 //        }
+//        Hobby hobb = new Hobby();
+//        hobb.setId(2);
+//        System.out.println(cf.getHobbiesCount(hobb));
         
-        
+
     }
 }

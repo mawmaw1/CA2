@@ -13,9 +13,11 @@ import entity.Hobby;
 import entity.InfoEntity;
 import entity.Person;
 import entity.Phone;
+import exception.PersonNotFoundException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -25,7 +27,6 @@ import javax.persistence.TypedQuery;
 public class Facade implements iFacade {
 
     private EntityManagerFactory emf;
-    
 
     public Facade(EntityManagerFactory e) {
         emf = e;
@@ -97,7 +98,18 @@ public class Facade implements iFacade {
 
     @Override
     public int getHobbiesCount(Hobby hobby) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Person> tq = em.createQuery("select p from Person p join p.hobbies h where h.id = :hobby", Person.class);
+            tq.setParameter("hobby", hobby.getId());
+
+            List<Person> out = tq.getResultList();
+
+            return out.size();
+
+        } finally {
+            em.close();
+        }
     }
 
     @Override
@@ -133,7 +145,7 @@ public class Facade implements iFacade {
 
     @Override
     public List<Person> getPersons() {
-         EntityManager em = getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             TypedQuery<Person> tq = em.createQuery("select p from Person p", Person.class);
             List<Person> out = tq.getResultList();
@@ -144,6 +156,56 @@ public class Facade implements iFacade {
         }
     }
 
+    @Override
+    public Person deletePerson(int id) throws PersonNotFoundException {
+        EntityManager em = getEntityManager();
+        try {
+            Person p = em.find(Person.class, id);
+            if (p == null) {
+                throw new PersonNotFoundException("No Person found with provided id");
+            }
+
+            em.getTransaction().begin();
+            em.remove(p);
+            em.getTransaction().commit();
+            return p;
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public Person editPerson(int id) throws PersonNotFoundException {
+        EntityManager em = getEntityManager();
+        try {
+            Person p = em.find(Person.class, id);
+            if (p == null) {
+                throw new PersonNotFoundException("No Person found with provided id");
+            }
+            p.setFirstName(p.getFirstName());
+            p.setLastName(p.getLastName());
+
+            em.getTransaction().begin();
+            em.merge(p);
+            em.getTransaction().commit();
+            return p;
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public Person addPerson(Person p) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(p);
+            em.getTransaction().commit();
+            return p;
+        } finally {
+            em.close();
+        }
+    }
     @Override
     public List<Company> getCompanies() {
         EntityManager em = getEntityManager();
