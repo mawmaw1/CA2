@@ -61,8 +61,8 @@ public class DataGen {
             person.setFirstName(firstnames[randInt(0, 35)]);
             person.setLastName(lastnames[randInt(0, 26)]);
             person.setEmail(emails[randInt(0, 10)]);
-            Hobby hobby = new Hobby();
-            hobby.setName(hobbies[randInt(0,7)]);
+            Hobby hobby = em.find(Hobby.class, randInt(1,10));
+            //hobby.setName(hobbies[randInt(0,7)]);
             person.addHobby(hobby);
 
             try {
