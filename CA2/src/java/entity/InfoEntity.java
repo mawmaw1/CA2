@@ -68,6 +68,14 @@ public abstract class InfoEntity implements Serializable {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+    public List<Phone> getPhones() {
+        return phones;
+    }
+
+    public void setPhones(List<Phone> phones) {
+        this.phones = phones;
+    }
     
     
 

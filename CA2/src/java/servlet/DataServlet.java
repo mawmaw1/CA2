@@ -36,11 +36,9 @@ public class DataServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String number = request.getParameter("num");
-            System.out.println(number);
-            String fields = request.getParameter("field");
 
-            URL url = new URL("http://localhost:8080/ExamEx8_REST_JSON/api/person/" + number + "/" + fields);
+
+            URL url = new URL("http://localhost:8080/ca2/api/person/");
             
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");

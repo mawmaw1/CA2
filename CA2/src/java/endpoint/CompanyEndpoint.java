@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import entity.Company;
 import entity.Hobby;
 import entity.Person;
 import entity.Phone;
@@ -23,7 +24,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -31,8 +31,8 @@ import javax.ws.rs.core.MediaType;
  *
  * @author kristoffernoga
  */
-@Path("person")
-public class PersonEndpoint {
+@Path("company")
+public class CompanyEndpoint {
 
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
@@ -42,32 +42,35 @@ public class PersonEndpoint {
     private UriInfo context;
 
     /**
-     * Creates a new instance of PersonEndpoint
+     * Creates a new instance of CompanyEndpoint
      */
-    public PersonEndpoint() {
+    public CompanyEndpoint() {
     }
 
     /**
-     * Retrieves representation of an instance of endpoint.PersonEndpoint
+     * Retrieves representation of an instance of endpoint.CompanyEndpoint
      *
      * @return an instance of java.lang.String
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getPersons() {
+    public String getJson() {
         JsonArray result = new JsonArray();
-        List<Person> persons = fc.getPersons();
-        for (Person person : persons) {
-            JsonObject p1 = new JsonObject();
-            p1.addProperty("firstname", person.getFirstName());
-            p1.addProperty("lastname", person.getLastName());
-            p1.addProperty("email", person.getEmail());
-            p1.addProperty("address", person.getAddress().getStreet() + " " + person.getAddress().getAdditionalInfo());
-            p1.addProperty("zip", person.getAddress().getCityInfo().getZip());
-            p1.addProperty("city", person.getAddress().getCityInfo().getCity());
+        List<Company> companies = fc.getCompanies();
+        for (Company c : companies) {
+            JsonObject c1 = new JsonObject();
+            c1.addProperty("name", c.getName());
+            c1.addProperty("email", c.getEmail());
+            c1.addProperty("description", c.getDescription());
+            c1.addProperty("cvr", c.getCvr());
+            c1.addProperty("NumEmployees", c.getNumEmployees());
+            c1.addProperty("marketValue", c.getMarketValue());
+            c1.addProperty("address", c.getAddress().getStreet() + " " + c.getAddress().getAdditionalInfo());
+            c1.addProperty("zip", c.getAddress().getCityInfo().getZip());
+            c1.addProperty("city", c.getAddress().getCityInfo().getCity());
 
             String phone = "";
-            List<Phone> phones = person.getPhones();
+            List<Phone> phones = c.getPhones();
             for (Phone p : phones) {
                 if (phones.size() == 1) {
                     phone += p.getPhoneNumber();
@@ -75,34 +78,16 @@ public class PersonEndpoint {
                     phone += p.getPhoneNumber() + ",";
                 }
             }
-            p1.addProperty("phonenumbers", phone);
+            c1.addProperty("phonenumbers", phone);
 
-            String hobby = "";
-            List<Hobby> hobbies = person.getHobbies();
-            for (Hobby h : hobbies) {
-                if (hobbies.size() == 1) {
-                    hobby += h.getName();
-                } else {
-                    hobby += h.getName() + ",";
-                }
-            }
-            p1.addProperty("hobbies", hobby);
-
-            result.add(p1);
+            result.add(c1);
         }
 
         return gson.toJson(result);
     }
 
-//    @GET
-//    @Path("/{number}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public String getPersonByID(@PathParam("number") int number) {
-//        return gson.toJson(countryfacade.getAllCountriesByPopulation(number));
-//    }
-
     /**
-     * PUT method for updating or creating an instance of PersonEndpoint
+     * PUT method for updating or creating an instance of CompanyEndpoint
      *
      * @param content representation for the resource
      */

@@ -16,6 +16,7 @@ import java.util.List;
  */
 public interface iFacade {
     public List<Person> getPersons();
+    public List<Company> getCompanies();
     public Person getPerson(String phoneNumber);
     public Company getCompany(String phoneNumber);
     public List<Person> getPersonsFromHobby(Hobby hobby);
