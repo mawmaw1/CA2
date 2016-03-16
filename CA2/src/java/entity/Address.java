@@ -24,7 +24,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class Address implements Serializable {
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne (cascade = CascadeType.PERSIST)
     private CityInfo cityInfo;
     private static final long serialVersionUID = 1L;
     @Id
@@ -34,7 +34,8 @@ public class Address implements Serializable {
     private String street;
     private String additionalInfo;
 
-    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "address")
+
+    @OneToMany(cascade = CascadeType.PERSIST ,mappedBy = "address")
     private List<InfoEntity> entities = new ArrayList();
 
     public Integer getId() {

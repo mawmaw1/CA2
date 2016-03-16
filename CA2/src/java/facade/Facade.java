@@ -5,7 +5,9 @@
  */
 package facade;
 
+import data.DataGen;
 import entity.Address;
+import entity.CityInfo;
 import entity.Company;
 import entity.Hobby;
 import entity.InfoEntity;
@@ -23,6 +25,7 @@ import javax.persistence.TypedQuery;
 public class Facade implements iFacade {
 
     private EntityManagerFactory emf;
+    
 
     public Facade(EntityManagerFactory e) {
         emf = e;
