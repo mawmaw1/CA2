@@ -28,7 +28,7 @@ public class Phone implements Serializable {
 
     @ManyToOne
     private InfoEntity infoEntity;
-   
+
     private String phoneNumber;
     private String description;
 

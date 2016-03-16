@@ -15,7 +15,31 @@
       <property name="javax.persistence.jdbc.user" value="admin"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.password" value="password"/>
+      <property name="javax.persistence.sql-load-script-source" value="script/script.sql"/>
+      <!--<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
+    </properties>
+  </persistence-unit>
+  
+  
+    <persistence-unit name="TESTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>entity.Address</class>
+    <class>entity.CityInfo</class>
+    <class>entity.Company</class>
+    <class>entity.Hobby</class>
+    <class>entity.InfoEntity</class>
+    <class>entity.Person</class>
+    <class>entity.Phone</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/testca2?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="admin"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="password"/>
+      <property name="javax.persistence.sql-load-script-source" value="script/script.sql"/>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
+  
+  
 </persistence>

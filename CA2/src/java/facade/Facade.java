@@ -98,7 +98,18 @@ public class Facade implements iFacade {
 
     @Override
     public int getHobbiesCount(Hobby hobby) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Person> tq = em.createQuery("select p from Person p join p.hobbies h where h.id = :hobby", Person.class);
+            tq.setParameter("hobby", hobby.getId());
+
+            List<Person> out = tq.getResultList();
+
+            return out.size();
+
+        } finally {
+            em.close();
+        }
     }
 
     @Override
