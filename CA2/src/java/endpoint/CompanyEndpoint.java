@@ -53,6 +53,7 @@ public class CompanyEndpoint {
      * @return an instance of java.lang.String
      */
     @GET
+    @Path("/complete")
     @Produces(MediaType.APPLICATION_JSON)
     public String getJson() {
         JsonArray result = new JsonArray();
@@ -69,16 +70,15 @@ public class CompanyEndpoint {
             c1.addProperty("zip", c.getAddress().getCityInfo().getZip());
             c1.addProperty("city", c.getAddress().getCityInfo().getCity());
 
-            String phone = "";
+            JsonArray phone = new JsonArray();
             List<Phone> phones = c.getPhones();
             for (Phone p : phones) {
-                if (phones.size() == 1) {
-                    phone += p.getPhoneNumber();
-                } else {
-                    phone += p.getPhoneNumber() + ",";
-                }
+                JsonObject p2 = new JsonObject();
+                p2.addProperty("number", p.getPhoneNumber());
+                p2.addProperty("description", p.getDescription());
+                phone.add(p2);
             }
-            c1.addProperty("phonenumbers", phone);
+            c1.add("phonenumbers", phone);
 
             result.add(c1);
         }
