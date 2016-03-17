@@ -7,12 +7,12 @@ package exception;
 
 /**
  *
- * @author ingim
+ * @author Magnus
  */
-public class PersonNotFoundException extends Exception {
+public class CompanyNotFoundException extends Exception {
 
-    public PersonNotFoundException(String string) {
-        super(string);
+    public CompanyNotFoundException(String message) {
+        super(message);
     }
 
 }

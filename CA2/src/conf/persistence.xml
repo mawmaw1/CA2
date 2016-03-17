@@ -11,10 +11,10 @@
     <class>entity.CityInfo</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3307/ca2?zeroDateTimeBehavior=convertToNull"/>
-      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/ca2?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="admin"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="s3cret94"/>
+      <property name="javax.persistence.jdbc.password" value="password"/>
       <property name="javax.persistence.sql-load-script-source" value="script/script.sql"/>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
@@ -32,10 +32,10 @@
     <class>entity.Phone</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3307/testca2?zeroDateTimeBehavior=convertToNull"/>
-      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/testca2?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="admin"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="s3cret94"/>
+      <property name="javax.persistence.jdbc.password" value="password"/>
       <property name="javax.persistence.sql-load-script-source" value="script/script.sql"/>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>

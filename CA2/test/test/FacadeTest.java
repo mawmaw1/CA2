@@ -26,17 +26,11 @@ import static org.junit.Assert.*;
  */
 public class FacadeTest {
 
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("TESTPU");
+    static EntityManagerFactory emf = Persistence.createEntityManagerFactory("TESTPU");
     private Facade cf = new Facade(emf);
-    private DataGen df = new DataGen(emf);
+    private static DataGen df = new DataGen(emf);
 
-    public DataGen getDf() {
-        return df;
-    }
 
-    public void setDf(DataGen df) {
-        this.df = df;
-    }
 
     public FacadeTest() {
     }
@@ -44,9 +38,9 @@ public class FacadeTest {
     @BeforeClass
     public static void setUpClass() {
         Persistence.generateSchema("TESTPU", null);
-        FacadeTest ft = new FacadeTest();
-        ft.getDf().createCompany();
-        ft.getDf().createPerson();
+        
+        df.createCompany();
+        df.createPerson();
 
     }
 
@@ -57,6 +51,7 @@ public class FacadeTest {
 
     @Before
     public void setUp() {
+        
     }
 
     @After

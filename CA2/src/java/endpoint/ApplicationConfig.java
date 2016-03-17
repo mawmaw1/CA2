@@ -31,6 +31,9 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(endpoint.CompanyEndpoint.class);
         resources.add(endpoint.PersonEndpoint.class);
+        resources.add(exception.CompanyNotFoundExceptionMapper.class);
+        resources.add(exception.GeneralExceptionMapper.class);
+        resources.add(exception.PersonNotFoundExceptionMapper.class);
     }
     
 }
