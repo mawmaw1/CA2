@@ -89,8 +89,8 @@ public class PersonEndpoint {
 
             result.add(p1);
         }
-        String endresult = gson.toJson(result);
-        return result.toString();
+        return gson.toJson(result);
+        
     }
 
     @GET
@@ -127,7 +127,6 @@ public class PersonEndpoint {
             out.add("hobbies", hobby);
         
         return gson.toJson(out);
-        // return out.toString();
     }
     
     @GET
@@ -155,7 +154,6 @@ public class PersonEndpoint {
             result.add(p1);
         }
         return gson.toJson(result);
-        //return result.toString();
     }
     
     @GET
@@ -179,7 +177,6 @@ public class PersonEndpoint {
             out.add("phonenumbers", phone);
         
         return gson.toJson(out);
-        // return out.toString();
     }
 
     /**
