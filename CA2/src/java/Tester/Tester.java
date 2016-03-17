@@ -30,19 +30,19 @@ public class Tester {
         Facade cf = new Facade(emf);
         DataGen df = new DataGen(emf);
 //
-       // df.createPerson();
-       // df.createCompany();
+        df.createPerson();
+        df.createCompany();
 //     //   Company c = cf.getCompany("99847752");
         
-        List<Person> persons = cf.getPersons();
-        for (Person person : persons) {
-            System.out.println(person.getFirstName() + person.getEmail());
-        }
+//        List<Person> persons = cf.getPersons();
+//        for (Person person : persons) {
+//            System.out.println(person.getFirstName() + person.getEmail());
+//        }
 //        Person p = cf.getPerson("00991133");
 //            System.out.println(p.getFirstName() + " " + p.getLastName());
 //       // System.out.println(c.getName());
 
-        List<Person> out = cf.getPersons();
+//        List<Person> out = cf.getPersons();
 //        List<Company> outs = cf.getCompanyListWithMoreEmployees(20000);
 //
         
