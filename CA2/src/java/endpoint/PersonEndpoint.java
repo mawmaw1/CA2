@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 import entity.Hobby;
 import entity.Person;
 import entity.Phone;
+import exception.PersonNotFoundException;
 import facade.Facade;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
@@ -20,6 +21,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
@@ -90,7 +92,7 @@ public class PersonEndpoint {
             result.add(p1);
         }
         return gson.toJson(result);
-        
+
     }
 
     @GET
@@ -100,35 +102,46 @@ public class PersonEndpoint {
         Person person = fc.getPerson(number);
         JsonObject out = new JsonObject();
         out.addProperty("firstname", person.getFirstName());
-            out.addProperty("lastname", person.getLastName());
-            out.addProperty("email", person.getEmail());
-            out.addProperty("address", person.getAddress().getStreet() + " " + person.getAddress().getAdditionalInfo());
-            out.addProperty("zip", person.getAddress().getCityInfo().getZip());
-            out.addProperty("city", person.getAddress().getCityInfo().getCity());
+        out.addProperty("lastname", person.getLastName());
+        out.addProperty("email", person.getEmail());
+        out.addProperty("address", person.getAddress().getStreet() + " " + person.getAddress().getAdditionalInfo());
+        out.addProperty("zip", person.getAddress().getCityInfo().getZip());
+        out.addProperty("city", person.getAddress().getCityInfo().getCity());
 
-            JsonArray phone = new JsonArray();
-            List<Phone> phones = person.getPhones();
-            for (Phone p : phones) {
-                JsonObject p2 = new JsonObject();
-                p2.addProperty("number", p.getPhoneNumber());
-                p2.addProperty("description", p.getDescription());
-                phone.add(p2);
-            }
-            out.add("phonenumbers", phone);
+        JsonArray phone = new JsonArray();
+        List<Phone> phones = person.getPhones();
+        for (Phone p : phones) {
+            JsonObject p2 = new JsonObject();
+            p2.addProperty("number", p.getPhoneNumber());
+            p2.addProperty("description", p.getDescription());
+            phone.add(p2);
+        }
+        out.add("phonenumbers", phone);
 
-            JsonArray hobby = new JsonArray();
-            List<Hobby> hobbies = person.getHobbies();
-            for (Hobby h : hobbies) {
-                JsonObject p2 = new JsonObject();
-                p2.addProperty("name", h.getName());
-                p2.addProperty("description", h.getDescription());
-                hobby.add(p2);
-            }
-            out.add("hobbies", hobby);
-        
+        JsonArray hobby = new JsonArray();
+        List<Hobby> hobbies = person.getHobbies();
+        for (Hobby h : hobbies) {
+            JsonObject p2 = new JsonObject();
+            p2.addProperty("name", h.getName());
+            p2.addProperty("description", h.getDescription());
+            hobby.add(p2);
+        }
+        out.add("hobbies", hobby);
+
         return gson.toJson(out);
     }
     
+    @DELETE
+    @Path("/delete/{number}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deletePersonByID(@PathParam("number") int number) throws PersonNotFoundException {
+       Person p = fc.deletePerson(number);
+       JsonObject out = new JsonObject();
+       out.addProperty("name", p.getFirstName()+" "+p.getLastName());
+       
+       return gson.toJson(out);
+    }
+
     @GET
     @Path("/contactinfo")
     @Produces(MediaType.APPLICATION_JSON)
@@ -155,7 +168,7 @@ public class PersonEndpoint {
         }
         return gson.toJson(result);
     }
-    
+
     @GET
     @Path("contactinfo/{number}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -163,19 +176,19 @@ public class PersonEndpoint {
         Person person = fc.getPerson(number);
         JsonObject out = new JsonObject();
         out.addProperty("firstname", person.getFirstName());
-            out.addProperty("lastname", person.getLastName());
-            out.addProperty("email", person.getEmail());
+        out.addProperty("lastname", person.getLastName());
+        out.addProperty("email", person.getEmail());
 
-            JsonArray phone = new JsonArray();
-            List<Phone> phones = person.getPhones();
-            for (Phone p : phones) {
-                JsonObject p2 = new JsonObject();
-                p2.addProperty("number", p.getPhoneNumber());
-                p2.addProperty("description", p.getDescription());
-                phone.add(p2);
-            }
-            out.add("phonenumbers", phone);
-        
+        JsonArray phone = new JsonArray();
+        List<Phone> phones = person.getPhones();
+        for (Phone p : phones) {
+            JsonObject p2 = new JsonObject();
+            p2.addProperty("number", p.getPhoneNumber());
+            p2.addProperty("description", p.getDescription());
+            phone.add(p2);
+        }
+        out.add("phonenumbers", phone);
+
         return gson.toJson(out);
     }
 
