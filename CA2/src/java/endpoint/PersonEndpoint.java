@@ -53,6 +53,7 @@ public class PersonEndpoint {
      * @return an instance of java.lang.String
      */
     @GET
+    @Path("/complete")
     @Produces(MediaType.APPLICATION_JSON)
     public String getPersons() {
         JsonArray result = new JsonArray();
@@ -76,29 +77,110 @@ public class PersonEndpoint {
             }
             p1.add("phonenumbers", phone);
 
-            String hobby = "";
+            JsonArray hobby = new JsonArray();
             List<Hobby> hobbies = person.getHobbies();
             for (Hobby h : hobbies) {
-                if (hobbies.size() == 1) {
-                    hobby += h.getName();
-                } else {
-                    hobby += h.getName() + ",";
-                }
+                JsonObject p2 = new JsonObject();
+                p2.addProperty("name", h.getName());
+                p2.addProperty("description", h.getDescription());
+                hobby.add(p2);
             }
-            p1.addProperty("hobbies", hobby);
+            p1.add("hobbies", hobby);
 
             result.add(p1);
         }
-
-        return gson.toJson(result);
+        String endresult = gson.toJson(result);
+        return result.toString();
     }
 
-//    @GET
-//    @Path("/{number}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public String getPersonByID(@PathParam("number") int number) {
-//        return gson.toJson(countryfacade.getAllCountriesByPopulation(number));
-//    }
+    @GET
+    @Path("complete/{number}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getPersonByID(@PathParam("number") int number) {
+        Person person = fc.getPerson(number);
+        JsonObject out = new JsonObject();
+        out.addProperty("firstname", person.getFirstName());
+            out.addProperty("lastname", person.getLastName());
+            out.addProperty("email", person.getEmail());
+            out.addProperty("address", person.getAddress().getStreet() + " " + person.getAddress().getAdditionalInfo());
+            out.addProperty("zip", person.getAddress().getCityInfo().getZip());
+            out.addProperty("city", person.getAddress().getCityInfo().getCity());
+
+            JsonArray phone = new JsonArray();
+            List<Phone> phones = person.getPhones();
+            for (Phone p : phones) {
+                JsonObject p2 = new JsonObject();
+                p2.addProperty("number", p.getPhoneNumber());
+                p2.addProperty("description", p.getDescription());
+                phone.add(p2);
+            }
+            out.add("phonenumbers", phone);
+
+            JsonArray hobby = new JsonArray();
+            List<Hobby> hobbies = person.getHobbies();
+            for (Hobby h : hobbies) {
+                JsonObject p2 = new JsonObject();
+                p2.addProperty("name", h.getName());
+                p2.addProperty("description", h.getDescription());
+                hobby.add(p2);
+            }
+            out.add("hobbies", hobby);
+        
+        return gson.toJson(out);
+        // return out.toString();
+    }
+    
+    @GET
+    @Path("/contactinfo")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getPersonsContactInfo() {
+        JsonArray result = new JsonArray();
+        List<Person> persons = fc.getPersons();
+        for (Person person : persons) {
+            JsonObject p1 = new JsonObject();
+            p1.addProperty("firstname", person.getFirstName());
+            p1.addProperty("lastname", person.getLastName());
+            p1.addProperty("email", person.getEmail());
+
+            JsonArray phone = new JsonArray();
+            List<Phone> phones = person.getPhones();
+            for (Phone p : phones) {
+                JsonObject p2 = new JsonObject();
+                p2.addProperty("number", p.getPhoneNumber());
+                p2.addProperty("description", p.getDescription());
+                phone.add(p2);
+            }
+            p1.add("phonenumbers", phone);
+
+            result.add(p1);
+        }
+        return gson.toJson(result);
+        //return result.toString();
+    }
+    
+    @GET
+    @Path("contactinfo/{number}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getPersonContactinfoByID(@PathParam("number") int number) {
+        Person person = fc.getPerson(number);
+        JsonObject out = new JsonObject();
+        out.addProperty("firstname", person.getFirstName());
+            out.addProperty("lastname", person.getLastName());
+            out.addProperty("email", person.getEmail());
+
+            JsonArray phone = new JsonArray();
+            List<Phone> phones = person.getPhones();
+            for (Phone p : phones) {
+                JsonObject p2 = new JsonObject();
+                p2.addProperty("number", p.getPhoneNumber());
+                p2.addProperty("description", p.getDescription());
+                phone.add(p2);
+            }
+            out.add("phonenumbers", phone);
+        
+        return gson.toJson(out);
+        // return out.toString();
+    }
 
     /**
      * PUT method for updating or creating an instance of PersonEndpoint

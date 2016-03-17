@@ -26,6 +26,7 @@ public interface iFacade {
     public List<Person> getPersonsFromHobby(Hobby hobby);
 
     public List<Person> getPersons(String zip);
+    public Person getPerson(int id);
 
     public int getHobbiesCount(Hobby hobby);
 
