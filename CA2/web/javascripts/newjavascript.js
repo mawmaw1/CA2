@@ -2,7 +2,7 @@ $(document).ready(function (){
    
     var getPersons = function () {
         $.ajax({
-            url: "DataServlet",
+            url: "http://localhost:8080/CA2/api/person/complete",
             type: "GET",
             dataType: "JSON",
             error : function (errorThrown){
@@ -10,8 +10,7 @@ $(document).ready(function (){
                 console.log(errorThrown);
             }
         }).then(function (data) {
-            console.log(JSON.parse(data));
-            var obj = JSON.parse(data);
+            console.log(data);
             $('#thead').html("");
             $('#tbody').html("");
             var row;
@@ -21,20 +20,20 @@ $(document).ready(function (){
             
             for (var i = 0; i < data.length; i++) {
                 var phonenumbers = "";
-                for (var j = 0; j < obj[i].phonenumbers.length; j++) {
-                    phonenumbers += obj[i].phonenumbers[j].description + ": " + obj[i].phonenumbers[j].number + "\n";
+                for (var j = 0; j < data[i].phonenumbers.length; j++) {
+                    phonenumbers += data[i].phonenumbers[j].description + ": " + data[i].phonenumbers[j].number + "\n";
                 }
                 var hobbies = "";
-                for (var j = 0; j < obj[i].hobbies.length; j++) {
-                    hobbies += obj[i].hobbies[j].name+"\n";
+                for (var j = 0; j < data[i].hobbies.length; j++) {
+                    hobbies += data[i].hobbies[j].name+"\n";
                 }
                 row = "<tr>" +
-                        "<td>" + obj[i].firstname + "</td>" + 
-                        "<td>" + obj[i].lastname + "</td>" + 
-                        "<td>" + obj[i].email + "</td>" + 
-                        "<td>" + obj[i].address + "</td>" + 
-                        "<td>" + obj[i].city + "</td>"  +
-                        "<td>" + obj[i].zip + "</td>" +
+                        "<td>" + data[i].firstname + "</td>" + 
+                        "<td>" + data[i].lastname + "</td>" + 
+                        "<td>" + data[i].email + "</td>" + 
+                        "<td>" + data[i].address + "</td>" + 
+                        "<td>" + data[i].city + "</td>"  +
+                        "<td>" + data[i].zip + "</td>" +
                         "<td>" + phonenumbers + "</td>" +
                         "<td>" + hobbies + "</td>" 
                         + "</tr>";
