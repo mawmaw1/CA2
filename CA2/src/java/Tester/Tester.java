@@ -54,6 +54,7 @@ public class Tester {
 //        hobb.setId(2);
 //        System.out.println(cf.getHobbiesCount(hobb));
         
+        
 
     }
 }

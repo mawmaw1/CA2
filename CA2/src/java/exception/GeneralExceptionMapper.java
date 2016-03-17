@@ -22,7 +22,7 @@ public class GeneralExceptionMapper implements ExceptionMapper<Throwable> {
     @Override
     public Response toResponse(Throwable e) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Response out = Response.status(500).entity(gson.toJson(new ErrorMessage("Internal server error", 500))).build();
+        Response out = Response.status(500).entity(gson.toJson(new ErrorMessage(e,"Internal server error", 500))).build();
         return out;
     }
 }

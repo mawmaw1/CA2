@@ -22,7 +22,7 @@ public class CompanyNotFoundExceptionMapper implements ExceptionMapper<CompanyNo
     @Override
     public Response toResponse(CompanyNotFoundException e) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        ErrorMessage em = new ErrorMessage("Company not found", 404);
+        ErrorMessage em = new ErrorMessage(e,"Company not found", 404);
         return Response.status(404).entity(gson.toJson(em)).type(MediaType.APPLICATION_JSON).build();
     }
 

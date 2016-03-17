@@ -5,6 +5,9 @@
  */
 package exception;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 /**
  *
  * @author Magnus
@@ -13,10 +16,14 @@ public class ErrorMessage {
 
     private String message;
     private int httpStatusCode;
+    private String stackTrace;
 
-    public ErrorMessage(String message, int httpStatusCode) {
+    public ErrorMessage(Throwable ex, String message, int httpStatusCode) {
         this.message = message;
         this.httpStatusCode = httpStatusCode;
+        StringWriter sw = new StringWriter();
+        ex.printStackTrace(new PrintWriter(sw));
+        this.stackTrace = sw.toString();
     }
 
     public String getMessage() {

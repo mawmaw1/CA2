@@ -22,7 +22,7 @@ public class PersonNotFoundExceptionMapper implements ExceptionMapper<PersonNotF
     @Override
     public Response toResponse(PersonNotFoundException e) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        ErrorMessage em = new ErrorMessage("Person not found", 404);
+        ErrorMessage em = new ErrorMessage(e,"Person not found", 404);
         return Response.status(404).entity(gson.toJson(em)).type(MediaType.APPLICATION_JSON).build();
     }
 

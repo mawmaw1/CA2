@@ -36,7 +36,7 @@ public abstract class InfoEntity implements Serializable {
     private Integer id;
     
     
-    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "infoEntity", orphanRemoval=true)
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "infoEntity")
     List<Phone> phones = new ArrayList();
 
     private String email;

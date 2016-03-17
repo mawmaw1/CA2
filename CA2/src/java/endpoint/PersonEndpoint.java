@@ -8,11 +8,16 @@ package endpoint;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import entity.Address;
+import entity.CityInfo;
 import entity.Hobby;
 import entity.Person;
 import entity.Phone;
 import facade.Facade;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -21,6 +26,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
@@ -90,7 +96,7 @@ public class PersonEndpoint {
             result.add(p1);
         }
         return gson.toJson(result);
-        
+
     }
 
     @GET
@@ -100,35 +106,40 @@ public class PersonEndpoint {
         Person person = fc.getPerson(number);
         JsonObject out = new JsonObject();
         out.addProperty("firstname", person.getFirstName());
-            out.addProperty("lastname", person.getLastName());
-            out.addProperty("email", person.getEmail());
-            out.addProperty("address", person.getAddress().getStreet() + " " + person.getAddress().getAdditionalInfo());
-            out.addProperty("zip", person.getAddress().getCityInfo().getZip());
-            out.addProperty("city", person.getAddress().getCityInfo().getCity());
+        out.addProperty("lastname", person.getLastName());
+        out.addProperty("email", person.getEmail());
+        JsonObject address = new JsonObject();
+        address.addProperty("street", person.getAddress().getStreet());
+        address.addProperty("additionalinfo", person.getAddress().getAdditionalInfo());
 
-            JsonArray phone = new JsonArray();
-            List<Phone> phones = person.getPhones();
-            for (Phone p : phones) {
-                JsonObject p2 = new JsonObject();
-                p2.addProperty("number", p.getPhoneNumber());
-                p2.addProperty("description", p.getDescription());
-                phone.add(p2);
-            }
-            out.add("phonenumbers", phone);
+        // out.addProperty("address", person.getAddress().getStreet() + " " + person.getAddress().getAdditionalInfo());
+        out.add("address", address);
+        out.addProperty("zip", person.getAddress().getCityInfo().getZip());
+        out.addProperty("city", person.getAddress().getCityInfo().getCity());
 
-            JsonArray hobby = new JsonArray();
-            List<Hobby> hobbies = person.getHobbies();
-            for (Hobby h : hobbies) {
-                JsonObject p2 = new JsonObject();
-                p2.addProperty("name", h.getName());
-                p2.addProperty("description", h.getDescription());
-                hobby.add(p2);
-            }
-            out.add("hobbies", hobby);
-        
+        JsonArray phone = new JsonArray();
+        List<Phone> phones = person.getPhones();
+        for (Phone p : phones) {
+            JsonObject p2 = new JsonObject();
+            p2.addProperty("number", p.getPhoneNumber());
+            p2.addProperty("description", p.getDescription());
+            phone.add(p2);
+        }
+        out.add("phonenumbers", phone);
+
+        JsonArray hobby = new JsonArray();
+        List<Hobby> hobbies = person.getHobbies();
+        for (Hobby h : hobbies) {
+            JsonObject p2 = new JsonObject();
+            p2.addProperty("name", h.getName());
+            p2.addProperty("description", h.getDescription());
+            hobby.add(p2);
+        }
+        out.add("hobbies", hobby);
+
         return gson.toJson(out);
     }
-    
+
     @GET
     @Path("/contactinfo")
     @Produces(MediaType.APPLICATION_JSON)
@@ -155,7 +166,7 @@ public class PersonEndpoint {
         }
         return gson.toJson(result);
     }
-    
+
     @GET
     @Path("contactinfo/{number}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -163,20 +174,67 @@ public class PersonEndpoint {
         Person person = fc.getPerson(number);
         JsonObject out = new JsonObject();
         out.addProperty("firstname", person.getFirstName());
-            out.addProperty("lastname", person.getLastName());
-            out.addProperty("email", person.getEmail());
+        out.addProperty("lastname", person.getLastName());
+        out.addProperty("email", person.getEmail());
 
-            JsonArray phone = new JsonArray();
-            List<Phone> phones = person.getPhones();
-            for (Phone p : phones) {
-                JsonObject p2 = new JsonObject();
-                p2.addProperty("number", p.getPhoneNumber());
-                p2.addProperty("description", p.getDescription());
-                phone.add(p2);
-            }
-            out.add("phonenumbers", phone);
-        
+        JsonArray phone = new JsonArray();
+        List<Phone> phones = person.getPhones();
+        for (Phone p : phones) {
+            JsonObject p2 = new JsonObject();
+            p2.addProperty("number", p.getPhoneNumber());
+            p2.addProperty("description", p.getDescription());
+            phone.add(p2);
+        }
+        out.add("phonenumbers", phone);
+
         return gson.toJson(out);
+    }
+
+    @POST
+    @Path("/complete/poster")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String addPerson(String person) {
+        JsonObject newPerson = new JsonParser().parse(person).getAsJsonObject();
+        Person p = new Person();
+        p.setFirstName(newPerson.get("firstname").getAsString());
+        p.setLastName(newPerson.get("lastname").getAsString());
+        p.setEmail(newPerson.get("email").getAsString());
+        Address address = new Address();
+
+        address.setAdditionalInfo(newPerson.getAsJsonObject("address").get("additionalinfo").getAsString());
+        address.setStreet(newPerson.getAsJsonObject("address").get("street").getAsString());
+
+        CityInfo city = new CityInfo();
+        city.setCity(newPerson.get("city").getAsString());
+        city.setZip(newPerson.get("zip").getAsString());
+        address.setCityInfo(city);
+        p.setAddress(address);
+
+        JsonArray phonesArr = newPerson.get("phonenumbers").getAsJsonArray();
+
+        for (JsonElement ph : phonesArr) {
+            Phone pho = new Phone();
+            System.out.println(ph.getAsJsonObject().get("number").getAsString());
+            System.out.println(ph.getAsJsonObject().get("description").getAsString());
+            pho.setPhoneNumber(ph.getAsJsonObject().get("number").getAsString());
+            pho.setDescription(ph.getAsJsonObject().get("description").getAsString());
+            pho.setInfoEntity(p);
+            p.addPhoneNumber(pho);
+        }
+
+        JsonArray hobbArr = newPerson.get("hobbies").getAsJsonArray();
+
+        for (JsonElement hob : hobbArr) {
+            Hobby ho = new Hobby();
+            ho.setDescription(hob.getAsJsonObject().get("description").getAsString());
+            ho.setName(hob.getAsJsonObject().get("name").getAsString());
+            p.addHobby(ho);
+        }
+        
+        p = fc.addPerson(p);
+        
+        return getPersonByID(p.getId());
+
     }
 
     /**
