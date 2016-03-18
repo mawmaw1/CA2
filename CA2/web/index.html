@@ -37,7 +37,7 @@ and open the template in the editor.
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="index.html">Home</a></li>
-                        <li><a href="#" id="pButton">Person</a></li>
+                        <li id ="pList"><a href="#" id="pButton">Person</a></li>
                         <li><a href="#" id="cButton">Company</a></li>
                         <li><a href="#" id="aButton">Add new</a></li>
                     </ul>
@@ -77,6 +77,7 @@ and open the template in the editor.
 
 
             <div id="createPerson">
+
                 <fieldset class="form-group">
                     <label for="firstname">First name</label>
                     <input type="text" class="form-control" id="firstname">
@@ -115,18 +116,26 @@ and open the template in the editor.
                     <input type="text" class="form-control" id="phoneDesc">
                 </fieldset>
                 <fieldset class="form-group">
-                    <label for="exampleSelect1">Example select</label>
-                    <select class="form-control" id="exampleSelect1">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                    <label for="hobbies">Select a hobby</label>
+                    <select class="form-control" id="hobbies">
+                        <option>Fodbold</option>
+                        <option>Skak</option>
+                        <option>Programmering</option>
+                        <option>Løb</option>
+                        <option>Billedkunst</option>
+                        <option>Snedkeri</option>
+                        <option>Cykling</option>
+                        <option>Keramik</option>
+                        <option>Svømning</option>
+                        <option>Ridning</option>
                     </select>
                 </fieldset>
 
 
                 <button type="button" id="createPButton" class="btn btn-primary">Submit</button>
+                <button type="button" id="editPButton" class="btn btn-primary">editPButton</button>
+                <input type="text" id="idgetter2">
+                <button id="getpersonbutton2">Get person</button>
             </div>
 
         </div>
