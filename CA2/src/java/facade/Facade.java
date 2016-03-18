@@ -81,6 +81,20 @@ public class Facade implements iFacade {
             em.close();
         }
     }
+    
+    @Override
+    public Company getCompany(int id) {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Company> tq = em.createQuery("select c from Company c where c.id = :id", Company.class);
+            tq.setParameter("id", id);
+
+            Company c = tq.getSingleResult();
+            return c;
+        } finally {
+            em.close();
+        }
+    }
 
     @Override
     public List<Person> getPersonsFromHobby(Hobby hobby) {

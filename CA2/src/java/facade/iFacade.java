@@ -36,5 +36,6 @@ public interface iFacade {
     public Person deletePerson(int id) throws PersonNotFoundException;
     public Person editPerson(int id) throws PersonNotFoundException;
     public Person addPerson(Person p);
+     public Company getCompany(int id);
     
 }
