@@ -108,7 +108,8 @@ $(document).ready(function () {
     };
 //    getPersons();
     $("#cButton").click(function () {
-//        $("#test").hide();
+        $("#test").hide();
+        $("#home").hide();
         $("#addnew").hide();
         $("#test").show(getCompanies());
         $('#getcompanybutton').show();
@@ -118,9 +119,10 @@ $(document).ready(function () {
     $("#homeButton").click(function () {
         $("#test").hide();
         $("#addnew").hide();
-//        $("#home").show();
+        $("#home").show();
     });
     $("#aButton").click(function () {
+        $("#home").hide();
         $("#test").hide();
         $("#addnew").show();
 
