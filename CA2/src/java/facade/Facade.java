@@ -205,15 +205,15 @@ public class Facade implements iFacade {
     }
 
     @Override
-    public Person editPerson(Person p) throws PersonNotFoundException {
+    public Person editPerson(int id) throws PersonNotFoundException {
         EntityManager em = getEntityManager();
         try {
-            
+            Person p = em.find(Person.class, id);
             if (p == null) {
                 throw new PersonNotFoundException("No Person found with provided id");
             }
-//            p.setFirstName(p.getFirstName());
-//            p.setLastName(p.getLastName());
+            p.setFirstName(p.getFirstName());
+            p.setLastName(p.getLastName());
 
             em.getTransaction().begin();
             em.merge(p);
