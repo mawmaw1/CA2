@@ -34,7 +34,7 @@ public interface iFacade {
 
     public List<Company> getCompanyListWithMoreEmployees(int number);
     public Person deletePerson(int id) throws PersonNotFoundException;
-    public Person editPerson(int id) throws PersonNotFoundException;
+    public Person editPerson(Person p) throws PersonNotFoundException;
     public Person addPerson(Person p);
      public Company getCompany(int id);
     
