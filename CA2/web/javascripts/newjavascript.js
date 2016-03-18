@@ -239,7 +239,8 @@ $(document).ready(function () {
         var city = $("#city").val();
         var phoneNumber = $("#phoneNumber").val();
         var phoneDesc = $("#phoneDesc").val();
-        
+        var hobbies = $("#hobbies").val();
+
         var jsonOut = {
             "firstname": firstname,
             "lastname": lastname,
@@ -258,20 +259,20 @@ $(document).ready(function () {
             ],
             "hobbies": [
                 {
-                    "name": "Ridning",
-                    "description": "Rid en tur"
+                    "name": hobbies,
+                    "description": "Empty"
                 }
             ]
         };
-       var parsed = JSON.stringify(jsonOut);
+        var parsed = JSON.stringify(jsonOut);
         postPerson(parsed);
-       
+
         console.log(parsed);
-        
+
     });
-    
-    var postPerson = function(jsonOut){
-        
+
+    var postPerson = function (jsonOut) {
+
         $.ajax({
             url: "http://localhost:8080/CA2/api/person/complete/poster",
             type: "POST",
@@ -288,8 +289,115 @@ $(document).ready(function () {
                 console.log(jqXHR);
                 console.log(textStatus);
             }
+        }).then(function () {
+            $("#addnew").hide();
+            $(".nav li").removeClass("active");
+            $("#pList").addClass("active");
+            $("#test").show(getPersons());
+        });
+
+    };
+
+    $("#getpersonbutton2").click(function () {
+
+        getPersonForEdit();
+    });
+
+    var getPersonForEdit = function () {
+        var id = $('#idgetter2').val();
+        globalID = id;
+        console.log(globalID);
+        $.ajax({
+            url: "http://localhost:8080/CA2/api/person/complete/" + id,
+            type: "GET",
+            dataType: "JSON"
+        }).then(function (data) {
+            console.log(data);
+            $("#firstname").val(data.firstname);
+            $("#lastname").val(data.lastname);
+            $("#email").val(data.email);
+            $("#street").val(data.address.street);
+            $("#additionalinfo").val(data.address.additionalinfo);
+            $("#zip").val(data.zip);
+            $("#city").val(data.city);
+
+            var number = data.phonenumbers[0].number;
+            var desc = data.phonenumbers[0].description;
+
+            $("#phoneNumber").val(number);
+            $("#phoneDesc").val(desc);
+            $("#hobbies").val(data.hobbies[0].name);
+
         });
     };
+    $("#editPButton").click(function () {
+        var firstname = $("#firstname").val();
+        var lastname = $("#lastname").val();
+        var email = $("#email").val();
+        var street = $("#street").val();
+        var additionalinfo = $("#additionalinfo").val();
+        var zip = $("#zip").val();
+        var city = $("#city").val();
+        var phoneNumber = $("#phoneNumber").val();
+        var phoneDesc = $("#phoneDesc").val();
+        var hobbies = $("#hobbies").val();
+        var id = $("#idgetter2").val();
+        var jsonOut = {
+            "id":id,
+            "firstname": firstname,
+            "lastname": lastname,
+            "email": email,
+            "address": {
+                "street": street,
+                "additionalinfo": additionalinfo
+            },
+            "zip": zip,
+            "city": city,
+            "phonenumbers": [
+                {
+                    "number": phoneNumber,
+                    "description": phoneDesc
+                }
+            ],
+            "hobbies": [
+                {
+                    "name": hobbies,
+                    "description": "Empty"
+                }
+            ]
+        };
+        var parsed = JSON.stringify(jsonOut);
+        editPerson(parsed);
+        console.log(parsed);
+
+    });
+    var editPerson = function (jsonOut) {
+
+        $.ajax({
+            url: "http://localhost:8080/CA2/api/person/editperson",
+            type: "PUT",
+            data: jsonOut,
+            dataType: "json",
+            contentType: "application/json",
+            success: function (data, textStatus, jqXHR)
+            {
+                console.log(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                console.log(errorThrown);
+                console.log(jqXHR);
+                console.log(textStatus);
+            }
+        }).then(function () {
+            $("#addnew").hide();
+            $(".nav li").removeClass("active");
+            $("#pList").addClass("active");
+            $("#test").show(getPersons());
+        });
+
+    };
+
 
 
 });
