@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $("#addnew").hide();
-
+    $("#deletepersonbutton").hide();
 
 
     $(".nav li").on("click", function () {
@@ -290,7 +290,7 @@ $(document).ready(function () {
                 console.log(textStatus);
             }
         }).then(function () {
-            $("#addnew").hide();
+            $("#addedit").hide();
             $(".nav li").removeClass("active");
             $("#pList").addClass("active");
             $("#test").show(getPersons());
@@ -343,7 +343,7 @@ $(document).ready(function () {
         var hobbies = $("#hobbies").val();
         var id = $("#idgetter2").val();
         var jsonOut = {
-            "id":id,
+            "id": id,
             "firstname": firstname,
             "lastname": lastname,
             "email": email,
@@ -369,6 +369,7 @@ $(document).ready(function () {
         var parsed = JSON.stringify(jsonOut);
         editPerson(parsed);
         console.log(parsed);
+        
 
     });
     var editPerson = function (jsonOut) {
@@ -390,13 +391,25 @@ $(document).ready(function () {
                 console.log(textStatus);
             }
         }).then(function () {
-            $("#addnew").hide();
-            $(".nav li").removeClass("active");
-            $("#pList").addClass("active");
-            $("#test").show(getPersons());
+            $("#addedit").hide();
+            $("#delete").show(getPersons());
+            $("#idgetter").hide();
+            $("#getpersonbutton").hide();
+            $("#getcompanybutton").hide();
+            $("#deletepersonbutton").hide();
         });
 
     };
+
+    $("#addButton").click(function () {
+        $("#delete").hide();
+        $("#addedit").show();
+    });
+
+    $("#deleteButton").click(function () {
+        $("#addedit").hide();
+        $("#delete").show();
+    });
 
 
 

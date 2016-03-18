@@ -37,14 +37,13 @@ and open the template in the editor.
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav">
                         <li><a href="index.html"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                        <li class="active"><a href="#" id="addButton">Add new</a></li>
+                        <li class="active"><a href="#" id="addButton">Add/edit</a></li>
                         <li><a href="#" id="deleteButton">Delete</a></li>
-                        <li><a href="#" id="editButton">Edit</a></li>
                     </ul>
-<!--                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                    </ul>-->
+                    <!--                    <ul class="nav navbar-nav navbar-right">
+                                            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                                            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                                        </ul>-->
                 </div>
             </div>
         </nav>
@@ -66,9 +65,9 @@ and open the template in the editor.
             <button id="getcompanybutton" class="btn btn-primary">Get company</button>
             <button id="deletepersonbutton" class="btn btn-primary">Delete person</button>
         </div>
-        
-        <div class="randomShizznix" id="edit" hidden="">
-            <table class="table" style="width: 100%" id="persontable">
+
+        <div class="randomShizznix" id="editBoard" hidden="">
+            <table class="table" style="width: 100%" id="persontable1">
                 <thead id="thead">
 
                 </thead>
@@ -79,20 +78,20 @@ and open the template in the editor.
                 <td id="td4"></td>
                 </tbody>
             </table>
-            <input type="text" id="idgetter">
-            <button id="getpersonbutton" class="btn btn-primary">Get person</button>
-            <button id="getcompanybutton" class="btn btn-primary">Get company</button>
-            <button id="getcompanybutton" class="btn btn-primary">Edit</button>
+<!--            <button type="button" id="createPButton" class="btn btn-primary">Submit</button>
+            <button type="button" id="editPButton" class="btn btn-primary">editPButton</button>
+            <input type="text" id="idgetter2">
+            <button id="getpersonbutton2">Get person</button>-->
         </div>
 
+        
 
-
-
-        <div class="randomShizznix" id="addnew"  style="padding-left: 30px;">
+        <div class="randomShizznix" id="addedit"  style="padding-left: 30px;">
 
 
 
             <div id="createPerson">
+
                 <fieldset class="form-group">
                     <label for="firstname">First name</label>
                     <input type="text" class="form-control" id="firstname">
@@ -131,24 +130,32 @@ and open the template in the editor.
                     <input type="text" class="form-control" id="phoneDesc">
                 </fieldset>
                 <fieldset class="form-group">
-                    <label for="exampleSelect1">Example select</label>
-                    <select class="form-control" id="exampleSelect1">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                    <label for="hobbies">Select a hobby</label>
+                    <select class="form-control" id="hobbies">
+                        <option>Fodbold</option>
+                        <option>Skak</option>
+                        <option>Programmering</option>
+                        <option>Løb</option>
+                        <option>Billedkunst</option>
+                        <option>Snedkeri</option>
+                        <option>Cykling</option>
+                        <option>Keramik</option>
+                        <option>Svømning</option>
+                        <option>Ridning</option>
                     </select>
                 </fieldset>
 
 
+
+
                 <button type="button" id="createPButton" class="btn btn-primary">Submit</button>
+                <button type="button" id="editPButton" class="btn btn-primary">editPButton</button>
+                <input type="text" id="idgetter2">
+                <button id="getpersonbutton2" class="btn btn-primary">Get person</button>
             </div>
 
         </div>
 
-
-
-        <script src="javascripts/addPersonJs.js" type="text/javascript"></script>
+        <script src="javascripts/newjavascript.js" type="text/javascript"></script>
     </body>
 </html>
