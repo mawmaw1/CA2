@@ -34,8 +34,10 @@ public abstract class InfoEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    
+    
 
-    @OneToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST}, mappedBy = "infoEntity")
+    @OneToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST}, mappedBy = "infoEntity",orphanRemoval = true)
     List<Phone> phones = new ArrayList();
 
     private String email;
