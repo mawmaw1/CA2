@@ -134,7 +134,8 @@ $(document).ready(function () {
             url: "http://localhost:8080/CA2/api/person/complete/" + id,
             type: "GET",
             dataType: "JSON"
-        }).then(function (data) {
+           
+        }).done(function (data) {
             console.log(data);
             $('#thead').html("");
             $('#tbody').html("");
@@ -167,6 +168,9 @@ $(document).ready(function () {
             $('#idgetter').val("");
             $('#deletepersonbutton').show();
 
+        }).fail(function (error) {
+           
+          alert("Person not found: " + error.status);
         });
     });
 

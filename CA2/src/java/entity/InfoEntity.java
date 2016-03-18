@@ -27,16 +27,15 @@ import javax.persistence.OneToMany;
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class InfoEntity implements Serializable {
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Address address;
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
-    
-    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "infoEntity")
+
+    @OneToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST}, mappedBy = "infoEntity")
     List<Phone> phones = new ArrayList();
 
     private String email;
@@ -56,8 +55,8 @@ public abstract class InfoEntity implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    public void addPhoneNumber(Phone phone){
+
+    public void addPhoneNumber(Phone phone) {
         phones.add(phone);
     }
 
@@ -76,7 +75,5 @@ public abstract class InfoEntity implements Serializable {
     public void setPhones(List<Phone> phones) {
         this.phones = phones;
     }
-    
-    
 
 }
