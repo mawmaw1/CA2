@@ -16,6 +16,7 @@ import entity.CityInfo;
 import entity.Hobby;
 import entity.Person;
 import entity.Phone;
+import exception.PersonNotFoundException;
 import facade.Facade;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -140,6 +142,17 @@ public class PersonEndpoint {
         return gson.toJson(out);
     }
 
+    @DELETE
+    @Path("/delete/{number}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deletePersonByID(@PathParam("number") int number) throws PersonNotFoundException {
+        Person p = fc.deletePerson(number);
+        JsonObject out = new JsonObject();
+        out.addProperty("name", p.getFirstName() + " " + p.getLastName());
+
+        return gson.toJson(out);
+    }
+
     @GET
     @Path("/contactinfo")
     @Produces(MediaType.APPLICATION_JSON)
@@ -193,6 +206,7 @@ public class PersonEndpoint {
     @POST
     @Path("/complete/poster")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public String addPerson(String person) {
         JsonObject newPerson = new JsonParser().parse(person).getAsJsonObject();
         Person p = new Person();
@@ -203,6 +217,8 @@ public class PersonEndpoint {
 
         address.setAdditionalInfo(newPerson.getAsJsonObject("address").get("additionalinfo").getAsString());
         address.setStreet(newPerson.getAsJsonObject("address").get("street").getAsString());
+//        address.setAdditionalInfo(newPerson.get("additionalinfo").getAsString());
+//        address.setStreet(newPerson.get("street").getAsString());
 
         CityInfo city = new CityInfo();
         city.setCity(newPerson.get("city").getAsString());
@@ -230,9 +246,9 @@ public class PersonEndpoint {
             ho.setName(hob.getAsJsonObject().get("name").getAsString());
             p.addHobby(ho);
         }
-        
+
         p = fc.addPerson(p);
-        
+
         return getPersonByID(p.getId());
 
     }
