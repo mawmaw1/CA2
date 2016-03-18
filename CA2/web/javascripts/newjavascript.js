@@ -156,7 +156,7 @@ $(document).ready(function () {
                     "<td>" + data.firstname + "</td>" +
                     "<td>" + data.lastname + "</td>" +
                     "<td>" + data.email + "</td>" +
-                    "<td>" + data.address + "</td>" +
+                    "<td>" + data.address.street + " " + data.address.additionalinfo +  "</td>" +
                     "<td>" + data.city + "</td>" +
                     "<td>" + data.zip + "</td>" +
                     "<td>" + phonenumbers + "</td>" +
