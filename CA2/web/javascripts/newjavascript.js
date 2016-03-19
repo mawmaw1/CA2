@@ -303,7 +303,7 @@ $(document).ready(function () {
     };
 
     $("#getpersonbutton2").click(function () {
-
+        
         getPersonForEdit();
     });
 
@@ -335,8 +335,12 @@ $(document).ready(function () {
             $("#phoneNumber").val(number);
             $("#phoneDesc").val(desc);
             $("#hobbies").val(data.hobbies[0].name);
-            
+
+        }).fail(function (error) {
+            myApp.hidePleaseWait();
+            alert("Person not found: " + error.status);
         });
+        ;
     };
     $("#editPButton").click(function () {
 
