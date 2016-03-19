@@ -78,13 +78,13 @@ and open the template in the editor.
                 <td id="td4"></td>
                 </tbody>
             </table>
-<!--            <button type="button" id="createPButton" class="btn btn-primary">Submit</button>
-            <button type="button" id="editPButton" class="btn btn-primary">editPButton</button>
-            <input type="text" id="idgetter2">
-            <button id="getpersonbutton2">Get person</button>-->
+            <!--            <button type="button" id="createPButton" class="btn btn-primary">Submit</button>
+                        <button type="button" id="editPButton" class="btn btn-primary">editPButton</button>
+                        <input type="text" id="idgetter2">
+                        <button id="getpersonbutton2">Get person</button>-->
         </div>
 
-        
+
 
         <div class="randomShizznix" id="addedit"  style="padding-left: 30px;">
 
@@ -155,7 +155,20 @@ and open the template in the editor.
             </div>
 
         </div>
-
+        <div class="modal" id="pleaseWaitDialog" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1>Processing...</h1>
+                    </div>
+                    <div class="modal-body">
+                        <div class="progress progress-striped active">
+                            <div class="progress-bar" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script src="javascripts/newjavascript.js" type="text/javascript"></script>
     </body>
 </html>

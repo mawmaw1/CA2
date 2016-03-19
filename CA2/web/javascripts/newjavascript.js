@@ -136,7 +136,7 @@ $(document).ready(function () {
             url: "http://localhost:8080/CA2/api/person/complete/" + id,
             type: "GET",
             dataType: "JSON"
-           
+
         }).done(function (data) {
             console.log(data);
             $('#thead').html("");
@@ -171,8 +171,8 @@ $(document).ready(function () {
             $('#deletepersonbutton').show();
 
         }).fail(function (error) {
-           
-          alert("Person not found: " + error.status);
+
+            alert("Person not found: " + error.status);
         });
     });
 
@@ -314,8 +314,12 @@ $(document).ready(function () {
         $.ajax({
             url: "http://localhost:8080/CA2/api/person/complete/" + id,
             type: "GET",
-            dataType: "JSON"
+            dataType: "JSON",
+            beforeSend: function () {
+                myApp.showPleaseWait();
+            }
         }).then(function (data) {
+            myApp.hidePleaseWait();
             console.log(data);
             $("#firstname").val(data.firstname);
             $("#lastname").val(data.lastname);
@@ -331,10 +335,11 @@ $(document).ready(function () {
             $("#phoneNumber").val(number);
             $("#phoneDesc").val(desc);
             $("#hobbies").val(data.hobbies[0].name);
-
+            
         });
     };
     $("#editPButton").click(function () {
+
         var firstname = $("#firstname").val();
         var lastname = $("#lastname").val();
         var email = $("#email").val();
@@ -373,7 +378,7 @@ $(document).ready(function () {
         var parsed = JSON.stringify(jsonOut);
         editPerson(parsed);
         console.log(parsed);
-        
+
 
     });
     var editPerson = function (jsonOut) {
@@ -386,7 +391,9 @@ $(document).ready(function () {
             contentType: "application/json",
             success: function (data, textStatus, jqXHR)
             {
-                console.log(data);
+                console.log(data.firstname);
+
+
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
@@ -401,6 +408,7 @@ $(document).ready(function () {
             $("#getpersonbutton").hide();
             $("#getcompanybutton").hide();
             $("#deletepersonbutton").hide();
+            console.log("test2");
         });
 
     };
@@ -415,6 +423,17 @@ $(document).ready(function () {
         $("#delete").show();
     });
 
-
+    var myApp;
+    myApp = myApp || (function () {
+        var pleaseWaitDiv = $('<div class="modal" id="pleaseWaitDialog" data-backdrop="static"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h1>Processing...</h1></div><div class="modal-body"><div class="progress progress-striped active"><div class="progress-bar" style="width: 100%;"></div></div></div></div></div></div>');
+        return {
+            showPleaseWait: function () {
+                pleaseWaitDiv.modal();
+            },
+            hidePleaseWait: function () {
+                pleaseWaitDiv.modal('hide');
+            },
+        };
+    })();
 
 });
