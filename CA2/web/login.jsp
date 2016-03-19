@@ -56,7 +56,10 @@
                         <input type="submit" value="Login" class="btn btn-primary btn-block">
                         <br>
                         <br>
-                        <input type="submit" value="Back!" class="btn btn-primary btn-block">
+                        
+                        <form action="index.html" method="get">
+                            <input type="submit" value="Back!" class="btn btn-primary btn-block">
+                        </form>
                     </form>
                     <br>
                 </div>
@@ -64,8 +67,9 @@
         </div>
         <script>
             $(document).ready(function () {
-                if (sessionStorage.getItem("is_reloaded")) alert('Error with login!');
-                
+                if (sessionStorage.getItem("is_reloaded"))
+                    alert('Error with login!');
+
                 sessionStorage.setItem("is_reloaded", true);
             });
         </script>
