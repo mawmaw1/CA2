@@ -26,7 +26,7 @@ public interface iFacade {
     public List<Person> getPersonsFromHobby(Hobby hobby);
 
     public List<Person> getPersons(String zip);
-    public Person getPerson(int id);
+    public Person getPerson(int id) throws PersonNotFoundException ;
 
     public int getHobbiesCount(Hobby hobby);
 

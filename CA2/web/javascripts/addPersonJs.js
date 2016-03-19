@@ -49,7 +49,7 @@ $(document).ready(function () {
     var postPerson = function (jsonOut) {
 
         $.ajax({
-            url: "http://localhost:8080/CA2/api/person/complete/poster",
+            url: "https://localhost:8443/CA2/api/person/complete/poster",
             type: "POST",
             data: jsonOut,
             dataType: "json",
@@ -73,7 +73,7 @@ $(document).ready(function () {
         globalID = id;
         console.log(globalID);
         $.ajax({
-            url: "http://localhost:8080/CA2/api/person/complete/" + id,
+            url: "https://localhost:8443/CA2/api/person/complete/" + id,
             type: "GET",
             dataType: "JSON"
         }).then(function (data) {
@@ -117,7 +117,7 @@ $(document).ready(function () {
         globalID = id;
         console.log(globalID);
         $.ajax({
-            url: "http://localhost:8080/CA2/api/company/complete/" + id,
+            url: "https://localhost:8443/CA2/api/company/complete/" + id,
             type: "GET",
             dataType: "JSON"
         }).then(function (data) {
@@ -155,7 +155,7 @@ $(document).ready(function () {
 
     $('#deletepersonbutton').click(function () {
         $.ajax({
-            url: "http://localhost:8080/CA2/api/person/delete/" + globalID,
+            url: "https://localhost:8443/CA2/api/person/delete/" + globalID,
             type: "DELETE",
             dataType: "JSON"
         }).then(function (data) {
@@ -174,7 +174,7 @@ $(document).ready(function () {
         globalID = id;
         console.log(globalID);
         $.ajax({
-            url: "http://localhost:8080/CA2/api/person/complete/" + id,
+            url: "https://localhost:8443/CA2/api/person/complete/" + id,
             type: "GET",
             dataType: "JSON"
         }).then(function (data) {
@@ -240,7 +240,7 @@ $(document).ready(function () {
     var editPerson = function (jsonOut) {
 
         $.ajax({
-            url: "http://localhost:8080/CA2/api/person/editperson",
+            url: "https://localhost:8443/CA2/api/person/editperson",
             type: "PUT",
             data: jsonOut,
             dataType: "json",

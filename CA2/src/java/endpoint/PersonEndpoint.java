@@ -68,6 +68,7 @@ public class PersonEndpoint {
         List<Person> persons = fc.getPersons();
         for (Person person : persons) {
             JsonObject p1 = new JsonObject();
+            p1.addProperty("id", person.getId());
             p1.addProperty("firstname", person.getFirstName());
             p1.addProperty("lastname", person.getLastName());
             p1.addProperty("email", person.getEmail());
@@ -104,8 +105,11 @@ public class PersonEndpoint {
     @GET
     @Path("complete/{number}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getPersonByID(@PathParam("number") int number) {
+    public String getPersonByID(@PathParam("number") int number) throws PersonNotFoundException {
+        
         Person person = fc.getPerson(number);
+        
+        
         JsonObject out = new JsonObject();
         out.addProperty("id", person.getId());
         out.addProperty("firstname", person.getFirstName());
@@ -162,6 +166,7 @@ public class PersonEndpoint {
         List<Person> persons = fc.getPersons();
         for (Person person : persons) {
             JsonObject p1 = new JsonObject();
+            p1.addProperty("id", person.getId());
             p1.addProperty("firstname", person.getFirstName());
             p1.addProperty("lastname", person.getLastName());
             p1.addProperty("email", person.getEmail());
@@ -184,9 +189,10 @@ public class PersonEndpoint {
     @GET
     @Path("contactinfo/{number}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getPersonContactinfoByID(@PathParam("number") int number) {
+    public String getPersonContactinfoByID(@PathParam("number") int number) throws PersonNotFoundException {
         Person person = fc.getPerson(number);
         JsonObject out = new JsonObject();
+        out.addProperty("id", person.getId());
         out.addProperty("firstname", person.getFirstName());
         out.addProperty("lastname", person.getLastName());
         out.addProperty("email", person.getEmail());
@@ -208,7 +214,7 @@ public class PersonEndpoint {
     @Path("/complete/poster")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String addPerson(String person) {
+    public String addPerson(String person) throws PersonNotFoundException {
         JsonObject newPerson = new JsonParser().parse(person).getAsJsonObject();
         Person p = new Person();
         p.setFirstName(newPerson.get("firstname").getAsString());

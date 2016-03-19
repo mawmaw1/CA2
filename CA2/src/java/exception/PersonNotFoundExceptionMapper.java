@@ -7,6 +7,7 @@ package exception;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -21,9 +22,15 @@ public class PersonNotFoundExceptionMapper implements ExceptionMapper<PersonNotF
 
     @Override
     public Response toResponse(PersonNotFoundException e) {
+        JsonObject jo = new JsonObject();
+        
+       jo.addProperty("code", "404");
+       jo.addProperty("message", e.getMessage());
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        
+        
         ErrorMessage em = new ErrorMessage(e,"Person not found", 404);
-        return Response.status(404).entity(gson.toJson(em)).type(MediaType.APPLICATION_JSON).build();
+        return Response.status(Response.Status.NOT_FOUND).entity(jo.toString()).build();
     }
 
 }

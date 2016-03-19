@@ -51,15 +51,21 @@ public class Facade implements iFacade {
         }
 
     }
-    
+
     @Override
-    public Person getPerson(int id) {
+    public Person getPerson(int id) throws PersonNotFoundException {
         EntityManager em = getEntityManager();
         try {
             TypedQuery<Person> tq = em.createQuery("select p from Person p  where p.id = :id", Person.class);
             tq.setParameter("id", id);
-
-            Person p = tq.getSingleResult();
+            Person p;
+            try{
+                    p = tq.getSingleResult();
+            }
+            catch (Exception e){
+                throw new PersonNotFoundException("No Person found with provided id");
+            }
+            
             return p;
 
         } finally {
@@ -81,7 +87,7 @@ public class Facade implements iFacade {
             em.close();
         }
     }
-    
+
     @Override
     public Company getCompany(int id) {
         EntityManager em = getEntityManager();
@@ -208,7 +214,7 @@ public class Facade implements iFacade {
     public Person editPerson(Person p) throws PersonNotFoundException {
         EntityManager em = getEntityManager();
         try {
-            
+
             if (p == null) {
                 throw new PersonNotFoundException("No Person found with provided id");
             }
@@ -236,10 +242,11 @@ public class Facade implements iFacade {
             em.close();
         }
     }
+
     @Override
     public List<Company> getCompanies() {
         EntityManager em = getEntityManager();
-        try{
+        try {
             TypedQuery<Company> tq = em.createQuery("select c from Company c", Company.class);
             List<Company> out = tq.getResultList();
             return out;

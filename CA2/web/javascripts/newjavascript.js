@@ -10,7 +10,7 @@ $(document).ready(function () {
 
     var getPersons = function () {
         $.ajax({
-            url: "http://localhost:8080/CA2/api/person/complete",
+            url: "https://localhost:8443/CA2/api/person/complete",
             type: "GET",
             dataType: "json",
             error: function (errorThrown) {
@@ -66,7 +66,7 @@ $(document).ready(function () {
 
     var getCompanies = function () {
         $.ajax({
-            url: "http://localhost:8080/CA2/api/company/complete",
+            url: "https://localhost:8443/CA2/api/company/complete",
             type: "GET",
             dataType: "json",
             error: function (errorThrown) {
@@ -133,10 +133,11 @@ $(document).ready(function () {
         globalID = id;
         console.log(globalID);
         $.ajax({
-            url: "http://localhost:8080/CA2/api/person/complete/" + id,
+            url: "https://localhost:8443/CA2/api/person/complete/" + id,
             type: "GET",
             dataType: "JSON"
-        }).then(function (data) {
+
+        }).done(function (data) {
             console.log(data);
             $('#thead').html("");
             $('#tbody').html("");
@@ -169,6 +170,9 @@ $(document).ready(function () {
             $('#idgetter').val("");
             $('#deletepersonbutton').show();
 
+        }).fail(function (error) {
+
+            alert("Person not found: " + error.status);
         });
     });
 
@@ -177,7 +181,7 @@ $(document).ready(function () {
         globalID = id;
         console.log(globalID);
         $.ajax({
-            url: "http://localhost:8080/CA2/api/company/complete/" + id,
+            url: "https://localhost:8443/CA2/api/company/complete/" + id,
             type: "GET",
             dataType: "JSON"
         }).then(function (data) {
@@ -215,7 +219,7 @@ $(document).ready(function () {
 
     $('#deletepersonbutton').click(function () {
         $.ajax({
-            url: "http://localhost:8080/CA2/api/person/delete/" + globalID,
+            url: "https://localhost:8443/CA2/api/person/delete/" + globalID,
             type: "DELETE",
             dataType: "JSON"
         }).then(function (data) {
@@ -274,7 +278,7 @@ $(document).ready(function () {
     var postPerson = function (jsonOut) {
 
         $.ajax({
-            url: "http://localhost:8080/CA2/api/person/complete/poster",
+            url: "https://localhost:8443/CA2/api/person/complete/poster",
             type: "POST",
             data: jsonOut,
             dataType: "json",
@@ -308,10 +312,14 @@ $(document).ready(function () {
         globalID = id;
         console.log(globalID);
         $.ajax({
-            url: "http://localhost:8080/CA2/api/person/complete/" + id,
+            url: "https://localhost:8443/CA2/api/person/complete/" + id,
             type: "GET",
-            dataType: "JSON"
+            dataType: "JSON",
+            beforeSend: function () {
+                myApp.showPleaseWait();
+            }
         }).then(function (data) {
+            myApp.hidePleaseWait();
             console.log(data);
             $("#firstname").val(data.firstname);
             $("#lastname").val(data.lastname);
@@ -327,10 +335,11 @@ $(document).ready(function () {
             $("#phoneNumber").val(number);
             $("#phoneDesc").val(desc);
             $("#hobbies").val(data.hobbies[0].name);
-
+            
         });
     };
     $("#editPButton").click(function () {
+
         var firstname = $("#firstname").val();
         var lastname = $("#lastname").val();
         var email = $("#email").val();
@@ -369,20 +378,22 @@ $(document).ready(function () {
         var parsed = JSON.stringify(jsonOut);
         editPerson(parsed);
         console.log(parsed);
-        
+
 
     });
     var editPerson = function (jsonOut) {
 
         $.ajax({
-            url: "http://localhost:8080/CA2/api/person/editperson",
+            url: "https://localhost:8443/CA2/api/person/editperson",
             type: "PUT",
             data: jsonOut,
             dataType: "json",
             contentType: "application/json",
             success: function (data, textStatus, jqXHR)
             {
-                console.log(data);
+                console.log(data.firstname);
+
+
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
@@ -397,6 +408,7 @@ $(document).ready(function () {
             $("#getpersonbutton").hide();
             $("#getcompanybutton").hide();
             $("#deletepersonbutton").hide();
+            console.log("test2");
         });
 
     };
@@ -411,6 +423,17 @@ $(document).ready(function () {
         $("#delete").show();
     });
 
-
+    var myApp;
+    myApp = myApp || (function () {
+        var pleaseWaitDiv = $('<div class="modal" id="pleaseWaitDialog" data-backdrop="static"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h1>Processing...</h1></div><div class="modal-body"><div class="progress progress-striped active"><div class="progress-bar" style="width: 100%;"></div></div></div></div></div></div>');
+        return {
+            showPleaseWait: function () {
+                pleaseWaitDiv.modal();
+            },
+            hidePleaseWait: function () {
+                pleaseWaitDiv.modal('hide');
+            },
+        };
+    })();
 
 });
