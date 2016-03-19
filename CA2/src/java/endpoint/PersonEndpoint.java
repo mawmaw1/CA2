@@ -68,6 +68,7 @@ public class PersonEndpoint {
         List<Person> persons = fc.getPersons();
         for (Person person : persons) {
             JsonObject p1 = new JsonObject();
+            p1.addProperty("id", person.getId());
             p1.addProperty("firstname", person.getFirstName());
             p1.addProperty("lastname", person.getLastName());
             p1.addProperty("email", person.getEmail());
@@ -104,9 +105,13 @@ public class PersonEndpoint {
     @GET
     @Path("complete/{number}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getPersonByID(@PathParam("number") int number) {
+    public String getPersonByID(@PathParam("number") int number) throws PersonNotFoundException {
+        
         Person person = fc.getPerson(number);
+        
+        
         JsonObject out = new JsonObject();
+        out.addProperty("id", person.getId());
         out.addProperty("firstname", person.getFirstName());
         out.addProperty("lastname", person.getLastName());
         out.addProperty("email", person.getEmail());
@@ -161,6 +166,7 @@ public class PersonEndpoint {
         List<Person> persons = fc.getPersons();
         for (Person person : persons) {
             JsonObject p1 = new JsonObject();
+            p1.addProperty("id", person.getId());
             p1.addProperty("firstname", person.getFirstName());
             p1.addProperty("lastname", person.getLastName());
             p1.addProperty("email", person.getEmail());
@@ -183,9 +189,10 @@ public class PersonEndpoint {
     @GET
     @Path("contactinfo/{number}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getPersonContactinfoByID(@PathParam("number") int number) {
+    public String getPersonContactinfoByID(@PathParam("number") int number) throws PersonNotFoundException {
         Person person = fc.getPerson(number);
         JsonObject out = new JsonObject();
+        out.addProperty("id", person.getId());
         out.addProperty("firstname", person.getFirstName());
         out.addProperty("lastname", person.getLastName());
         out.addProperty("email", person.getEmail());
@@ -207,7 +214,7 @@ public class PersonEndpoint {
     @Path("/complete/poster")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String addPerson(String person) {
+    public String addPerson(String person) throws PersonNotFoundException {
         JsonObject newPerson = new JsonParser().parse(person).getAsJsonObject();
         Person p = new Person();
         p.setFirstName(newPerson.get("firstname").getAsString());
@@ -256,10 +263,69 @@ public class PersonEndpoint {
     /**
      * PUT method for updating or creating an instance of PersonEndpoint
      *
+     * @param person
      * @param content representation for the resource
+     * @return 
      */
     @PUT
+    @Path("/editperson")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void putJson(String content) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public String editPerson(String person) throws PersonNotFoundException {
+        JsonObject newPerson = new JsonParser().parse(person).getAsJsonObject();
+        Person p = fc.getPerson(newPerson.get("id").getAsInt());
+        p.setFirstName(newPerson.get("firstname").getAsString());
+        p.setLastName(newPerson.get("lastname").getAsString());
+        p.setEmail(newPerson.get("email").getAsString());
+        Address address = p.getAddress();
+
+        address.setAdditionalInfo(newPerson.getAsJsonObject("address").get("additionalinfo").getAsString());
+        address.setStreet(newPerson.getAsJsonObject("address").get("street").getAsString());
+//        address.setAdditionalInfo(newPerson.get("additionalinfo").getAsString());
+//        address.setStreet(newPerson.get("street").getAsString());
+
+        CityInfo city = new CityInfo();
+        city.setCity(newPerson.get("city").getAsString());
+        city.setZip(newPerson.get("zip").getAsString());
+        address.setCityInfo(city);
+        p.setAddress(address);
+
+        JsonArray phonesArr = newPerson.get("phonenumbers").getAsJsonArray();
+        
+        JsonElement ph = phonesArr.get(0);
+        Phone pho = p.getPhones().get(0);
+        pho.setPhoneNumber(ph.getAsJsonObject().get("number").getAsString());
+        pho.setDescription(ph.getAsJsonObject().get("description").getAsString());
+        pho.setInfoEntity(p);
+        List<Phone> phones = new ArrayList();
+        phones.add(pho);
+        p.setPhones(phones);
+        
+//        for (JsonElement ph : phonesArr) {
+//            Phone pho = new Phone();
+//            
+//            pho.setPhoneNumber(ph.getAsJsonObject().get("number").getAsString());
+//            pho.setDescription(ph.getAsJsonObject().get("description").getAsString());
+//            pho.setInfoEntity(p);
+//            p.addPhoneNumber(pho);
+//        }
+
+        JsonArray hobbArr = newPerson.get("hobbies").getAsJsonArray();
+       // p.setHobbies(null);
+        JsonElement hob = hobbArr.get(0);
+        Hobby ho = p.getHobbies().get(0);
+        ho.setDescription(hob.getAsJsonObject().get("description").getAsString());
+        ho.setName(hob.getAsJsonObject().get("name").getAsString());
+//        for (JsonElement hob : hobbArr) {
+//            Hobby ho = new Hobby();
+//            ho.setDescription(hob.getAsJsonObject().get("description").getAsString());
+//            ho.setName(hob.getAsJsonObject().get("name").getAsString());
+//            p.addHobby(ho);
+//        }
+
+        p = fc.editPerson(p);
+
+        return getPersonByID(p.getId());
+
     }
 }
