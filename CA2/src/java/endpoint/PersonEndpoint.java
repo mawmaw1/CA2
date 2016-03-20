@@ -11,6 +11,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import data.DataGen;
 import deploy.DeploymentConfiguration;
 import entity.Address;
 import entity.CityInfo;
@@ -46,6 +47,7 @@ public class PersonEndpoint {
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
     Facade fc = new Facade(emf);
+    DataGen dg = new DataGen(emf);
 
     @Context
     private UriInfo context;
@@ -101,6 +103,17 @@ public class PersonEndpoint {
         }
         return gson.toJson(result);
 
+    }
+    
+    @GET
+    @Path("/generate")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String generatePersons() {    
+        dg.createPerson();
+        dg.createCompany();
+        
+        return gson.toJson("succes");
     }
 
     @GET
