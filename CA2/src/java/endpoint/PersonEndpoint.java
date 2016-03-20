@@ -11,6 +11,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import data.DataGen;
+import deploy.DeploymentConfiguration;
 import entity.Address;
 import entity.CityInfo;
 import entity.Hobby;
@@ -43,9 +45,9 @@ import javax.ws.rs.core.MediaType;
 public class PersonEndpoint {
 
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
     Facade fc = new Facade(emf);
-
+    DataGen df = new DataGen(emf);
     @Context
     private UriInfo context;
 
@@ -106,10 +108,9 @@ public class PersonEndpoint {
     @Path("complete/{number}")
     @Produces(MediaType.APPLICATION_JSON)
     public String getPersonByID(@PathParam("number") int number) throws PersonNotFoundException {
-        
+
         Person person = fc.getPerson(number);
-        
-        
+
         JsonObject out = new JsonObject();
         out.addProperty("id", person.getId());
         out.addProperty("firstname", person.getFirstName());
@@ -265,7 +266,7 @@ public class PersonEndpoint {
      *
      * @param person
      * @param content representation for the resource
-     * @return 
+     * @return
      */
     @PUT
     @Path("/editperson")
@@ -291,7 +292,7 @@ public class PersonEndpoint {
         p.setAddress(address);
 
         JsonArray phonesArr = newPerson.get("phonenumbers").getAsJsonArray();
-        
+
         JsonElement ph = phonesArr.get(0);
         Phone pho = p.getPhones().get(0);
         pho.setPhoneNumber(ph.getAsJsonObject().get("number").getAsString());
@@ -300,7 +301,7 @@ public class PersonEndpoint {
         List<Phone> phones = new ArrayList();
         phones.add(pho);
         p.setPhones(phones);
-        
+
 //        for (JsonElement ph : phonesArr) {
 //            Phone pho = new Phone();
 //            
@@ -309,9 +310,8 @@ public class PersonEndpoint {
 //            pho.setInfoEntity(p);
 //            p.addPhoneNumber(pho);
 //        }
-
         JsonArray hobbArr = newPerson.get("hobbies").getAsJsonArray();
-       // p.setHobbies(null);
+        // p.setHobbies(null);
         JsonElement hob = hobbArr.get(0);
         Hobby ho = p.getHobbies().get(0);
         ho.setDescription(hob.getAsJsonObject().get("description").getAsString());
@@ -327,5 +327,15 @@ public class PersonEndpoint {
 
         return getPersonByID(p.getId());
 
+    }
+
+    @GET
+    @Path("/generate")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String generatePersons() {
+        df.createCompany();
+        df.createPerson();
+        return gson.toJson("success");
     }
 }

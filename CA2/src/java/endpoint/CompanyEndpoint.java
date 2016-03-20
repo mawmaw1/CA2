@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import deploy.DeploymentConfiguration;
 import entity.Company;
 import entity.Hobby;
 import entity.Person;
@@ -36,7 +37,7 @@ import javax.ws.rs.core.MediaType;
 public class CompanyEndpoint {
 
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
     Facade fc = new Facade(emf);
 
     @Context

@@ -6,6 +6,7 @@
 package facade;
 
 import data.DataGen;
+import deploy.DeploymentConfiguration;
 import entity.Address;
 import entity.CityInfo;
 import entity.Company;
@@ -17,6 +18,7 @@ import exception.PersonNotFoundException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
@@ -26,7 +28,7 @@ import javax.persistence.TypedQuery;
  */
 public class Facade implements iFacade {
 
-    private EntityManagerFactory emf;
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
 
     public Facade(EntityManagerFactory e) {
         emf = e;
@@ -59,13 +61,12 @@ public class Facade implements iFacade {
             TypedQuery<Person> tq = em.createQuery("select p from Person p  where p.id = :id", Person.class);
             tq.setParameter("id", id);
             Person p;
-            try{
-                    p = tq.getSingleResult();
-            }
-            catch (Exception e){
+            try {
+                p = tq.getSingleResult();
+            } catch (Exception e) {
                 throw new PersonNotFoundException("No Person found with provided id");
             }
-            
+
             return p;
 
         } finally {
