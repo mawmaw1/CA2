@@ -6,6 +6,7 @@
 package Tester;
 
 import data.DataGen;
+import deploy.DeploymentConfiguration;
 import entity.Company;
 import entity.Hobby;
 import entity.InfoEntity;
@@ -26,7 +27,7 @@ public class Tester {
 
     public static void main(String[] args) {
             //Persistence.generateSchema("PU", null);
-          EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
+          EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         Facade cf = new Facade(emf);
         DataGen df = new DataGen(emf);
 //

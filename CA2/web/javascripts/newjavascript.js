@@ -10,7 +10,7 @@ $(document).ready(function () {
 
     var getPersons = function () {
         $.ajax({
-            url: "https://localhost:8443/CA2/api/person/complete",
+            url: "api/person/complete",
             type: "GET",
             dataType: "json",
             error: function (errorThrown) {
@@ -66,7 +66,7 @@ $(document).ready(function () {
 
     var getCompanies = function () {
         $.ajax({
-            url: "https://localhost:8443/CA2/api/company/complete",
+            url: "api/company/complete",
             type: "GET",
             dataType: "json",
             error: function (errorThrown) {
@@ -133,7 +133,7 @@ $(document).ready(function () {
         globalID = id;
         console.log(globalID);
         $.ajax({
-            url: "https://localhost:8443/CA2/api/person/complete/" + id,
+            url: "api/person/complete/" + id,
             type: "GET",
             dataType: "JSON"
 
@@ -181,7 +181,7 @@ $(document).ready(function () {
         globalID = id;
         console.log(globalID);
         $.ajax({
-            url: "https://localhost:8443/CA2/api/company/complete/" + id,
+            url: "api/company/complete/" + id,
             type: "GET",
             dataType: "JSON"
         }).then(function (data) {
@@ -219,7 +219,7 @@ $(document).ready(function () {
 
     $('#deletepersonbutton').click(function () {
         $.ajax({
-            url: "https://localhost:8443/CA2/api/person/delete/" + globalID,
+            url: "api/person/delete/" + globalID,
             type: "DELETE",
             dataType: "JSON"
         }).then(function (data) {
@@ -278,7 +278,7 @@ $(document).ready(function () {
     var postPerson = function (jsonOut) {
 
         $.ajax({
-            url: "https://localhost:8443/CA2/api/person/complete/poster",
+            url: "api/person/complete/poster",
             type: "POST",
             data: jsonOut,
             dataType: "json",
@@ -312,7 +312,7 @@ $(document).ready(function () {
         globalID = id;
         console.log(globalID);
         $.ajax({
-            url: "https://localhost:8443/CA2/api/person/complete/" + id,
+            url: "api/person/complete/" + id,
             type: "GET",
             dataType: "JSON",
             beforeSend: function () {
@@ -388,7 +388,7 @@ $(document).ready(function () {
     var editPerson = function (jsonOut) {
 
         $.ajax({
-            url: "https://localhost:8443/CA2/api/person/editperson",
+            url: "api/person/editperson",
             type: "PUT",
             data: jsonOut,
             dataType: "json",
