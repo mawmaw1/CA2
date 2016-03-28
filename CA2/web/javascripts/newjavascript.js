@@ -423,6 +423,7 @@ $(document).ready(function () {
     });
 
     $("#deleteButton").click(function () {
+        $("#delete").hide();
         $("#addedit").hide();
         $("#delete").show();
     });
